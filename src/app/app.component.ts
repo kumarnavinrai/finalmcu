@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { Events, MenuController, Nav, Platform } from 'ionic-angular';
+import { Events, MenuController, Nav, Platform, ToastController, AlertController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { Storage } from '@ionic/storage';
@@ -18,6 +18,11 @@ import { SupportPage } from '../pages/support/support';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
+
+import { Autostart } from '@ionic-native/autostart';
+import { BackgroundMode } from '@ionic-native/background-mode';
+
+declare var cordova:any;
 
 export interface PageInterface {
   title: string;
@@ -42,12 +47,20 @@ export class ConferenceApp {
   // the left menu only works after login
   // the login page disables the left menu
   appPages: PageInterface[] = [
-    { title: 'Schedule', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'calendar' },
-    { title: 'Speakers', name: 'TabsPage', component: TabsPage, tabComponent: SpeakerListPage, index: 1, icon: 'contacts' },
-    { title: 'Map', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map' },
-    { title: 'About', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' }
+    { title: 'Settings', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'calendar' },
+    { title: 'Home', name: 'TabsPage', component: TabsPage, tabComponent: SpeakerListPage, index: 1, icon: 'contacts' },
+    { title: 'Laptop', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map' },
+    { title: 'Phone', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
+    { title: 'Water Tank', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
+    { title: 'Alarm', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' }
   ];
   loggedInPages: PageInterface[] = [
+     { title: 'Settings', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'calendar' },
+    { title: 'Home', name: 'TabsPage', component: TabsPage, tabComponent: SpeakerListPage, index: 1, icon: 'contacts' },
+    { title: 'Laptop', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map' },
+    { title: 'Phone', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
+    { title: 'Water Tank', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
+    { title: 'Alarm', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
     { title: 'Account', name: 'AccountPage', component: AccountPage, icon: 'person' },
     { title: 'Support', name: 'SupportPage', component: SupportPage, icon: 'help' },
     { title: 'Logout', name: 'TabsPage', component: TabsPage, icon: 'log-out', logsOut: true }
@@ -58,6 +71,8 @@ export class ConferenceApp {
     { title: 'Signup', name: 'SignupPage', component: SignupPage, icon: 'person-add' }
   ];
   rootPage: any;
+  userloggedinornot: boolean = false;
+  alert: any;
 
   constructor(
     public events: Events,
@@ -66,27 +81,46 @@ export class ConferenceApp {
     public platform: Platform,
     public confData: ConferenceData,
     public storage: Storage,
+    public toast: ToastController,
+    private alertCtrl: AlertController,
+    private backgroundMode: BackgroundMode,
+    private autostart: Autostart,
     public splashScreen: SplashScreen
   ) {
-
+    
     // Check if the user has already seen the tutorial
     this.storage.get('hasSeenTutorial')
       .then((hasSeenTutorial) => {
         if (hasSeenTutorial) {
-          this.rootPage = TabsPage;
+          //this.rootPage = TabsPage;
+          //this.rootPage = LoginPage;
         } else {
-          this.rootPage = TutorialPage;
+          //this.rootPage = TutorialPage;
+          //this.rootPage = LoginPage;
         }
         this.platformReady()
       });
 
     // load the conference data
     confData.load();
+    let pointer: any = this;
 
     // decide which menu items should be hidden by current login status stored in local storage
     this.userData.hasLoggedIn().then((hasLoggedIn) => {
+      
       this.enableMenu(hasLoggedIn === true);
+
+      if(hasLoggedIn == true)
+      {
+        pointer.userloggedinornot = true;
+        pointer.rootPage = SchedulePage;
+      }else
+      {
+        pointer.rootPage = LoginPage;
+      }
+
     });
+
     this.enableMenu(true);
 
     this.listenToLoginEvents();
@@ -117,6 +151,7 @@ export class ConferenceApp {
     if (page.logsOut === true) {
       // Give the menu time to close before changing to logged out
       this.userData.logout();
+      this.nav.setRoot(LoginPage);
     }
   }
 
@@ -143,10 +178,211 @@ export class ConferenceApp {
     this.menu.enable(!loggedIn, 'loggedOutMenu');
   }
 
+  waistFunc()
+  {
+    console.log(this.backgroundMode);
+  }
+
+  toastfun(data: string) 
+  {
+      let toast = this.toast.create({
+        message: data,
+        duration: 3000,
+        position: 'middle'
+      });
+
+      toast.onDidDismiss(() => {
+       
+        //this.changePassPrompt('');
+      });
+
+      toast.present();
+  }
+
+  showAlert() 
+  {
+      this.alert = this.alertCtrl.create({
+        title: 'Exit?',
+        message: 'Do not exit the app ?',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              this.alert =null;
+            }
+          },
+          {
+            text: 'Exit',
+            handler: () => {
+              this.platform.exitApp();
+            }
+          }
+        ]
+      });
+
+      if(this.alert != undefined)
+      {
+        this.alert.present();
+      }  
+  }
+
   platformReady() {
+    
+    let check: any = this;
+
     // Call any initial plugins when ready
     this.platform.ready().then(() => {
       this.splashScreen.hide();
+      this.autostart.enable();
+
+      if(this.platform.is('cordova'))
+      {
+        /*cordova.plugins.notification.local.on('click', function (notification) {
+            console.log('onclick', arguments);
+            check.toastfun('clicked: ' + notification.id);
+        });*/
+        
+        cordova.plugins.backgroundMode.setEnabled(true);
+        cordova.plugins.backgroundMode.overrideBackButton();
+        cordova.plugins.backgroundMode.excludeFromTaskList();
+
+        cordova.plugins.notification.local.on('trigger', function (notification: any) {
+            
+            let obj: any = JSON.parse(notification.data);
+            let simpledata: any = obj.actions[0];
+
+            if(simpledata.hasOwnProperty('switch1')){
+                check.storage.set('switchonetimernotset','no');
+                if(simpledata.switch1 == 'ON')
+                {
+                  check.onSwitch(1);
+                }
+
+                if(simpledata.switch1 == 'OFF')
+                {
+                  check.offSwitch(1);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch2')){
+                
+                if(simpledata.switch2 == 'ON')
+                {
+                  check.onSwitch(2);
+                }
+
+                if(simpledata.switch2 == 'OFF')
+                {
+                  check.offSwitch(2);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch3')){
+                if(simpledata.switch3 == 'ON')
+                {
+                  check.onSwitch(3);
+                }
+
+                if(simpledata.switch3 == 'OFF')
+                {
+                  check.offSwitch(3);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch4')){
+                if(simpledata.switch4 == 'ON')
+                {
+                  check.onSwitch(4);
+                }
+
+                if(simpledata.switch4 == 'OFF')
+                {
+                  check.offSwitch(4);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch5')){
+                if(simpledata.switch5 == 'ON')
+                {
+                  check.onSwitch(5);
+                }
+
+                if(simpledata.switch5 == 'OFF')
+                {
+                  check.offSwitch(5);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch6')){
+                if(simpledata.switch6 == 'ON')
+                {
+                  check.onSwitch(6);
+                }
+
+                if(simpledata.switch6 == 'OFF')
+                {
+                  check.offSwitch(6);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch7')){
+                if(simpledata.switch7 == 'ON')
+                {
+                  check.onSwitch(7);
+                }
+
+                if(simpledata.switch7 == 'OFF')
+                {
+                  check.offSwitch(7);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch8')){
+                if(simpledata.switch8 == 'ON')
+                {
+                  check.onSwitch(8);
+                }
+
+                if(simpledata.switch8 == 'OFF')
+                {
+                  check.offSwitch(8);
+                }
+            }
+
+
+            check.storage.set('appstartedfirsttime', 'Navin Kumar'+ notification.id);
+        });
+      }  
+
+      this.platform.registerBackButtonAction(() => {
+        if(this.nav.canGoBack()){
+          this.nav.pop();
+        }else{
+          if(this.alert){ 
+            this.alert.dismiss();
+            this.alert =null;     
+          }else{
+            //this.showAlert();
+           }
+        }
+
+      });
+
+    });//platform ready ends here
+  }
+
+  onSwitch(data: any)
+  {
+    this.confData.hitSwitch(data).subscribe((data: any) => {
+        console.log(data);
+    });
+  }
+
+  offSwitch(data: any)
+  {
+    this.confData.hitOFFSwitch(data).subscribe((data: any) => {
+        console.log(data);
     });
   }
 

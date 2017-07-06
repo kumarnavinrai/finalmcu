@@ -5,7 +5,7 @@ import { ConferenceData } from '../../providers/conference-data';
 import { Platform } from 'ionic-angular';
 
 
-declare var google: any;
+//declare var google: any;
 
 
 @Component({
@@ -17,7 +17,7 @@ export class MapPage {
   @ViewChild('mapCanvas') mapElement: ElementRef;
   constructor(public confData: ConferenceData, public platform: Platform) {
   }
-
+/*
   ionViewDidLoad() {
 
       this.confData.getMap().subscribe((mapData: any) => {
@@ -50,5 +50,5 @@ export class MapPage {
 
       });
 
-  }
+  }*/
 }

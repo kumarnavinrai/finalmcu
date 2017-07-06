@@ -4,85 +4,374 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
+    <ion-title>Welcome to Smart Automation</ion-title>
+
+    <!-- <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
       <ion-segment-button value="all">
         All
       </ion-segment-button>
       <ion-segment-button value="favorites">
         Favorites
       </ion-segment-button>
-    </ion-segment>
+    </ion-segment> -->
 
-    <ion-buttons end>
+    <!-- <ion-buttons end>
       <button ion-button icon-only (click)="presentFilter()">
         <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
       </button>
-    </ion-buttons>
+    </ion-buttons> -->
   </ion-navbar>
 
-  <ion-toolbar no-border-top>
+  <!-- <ion-toolbar no-border-top>
     <ion-searchbar color="primary"
                    [(ngModel)]="queryText"
                    (ionInput)="updateSchedule()"
                    placeholder="Search">
     </ion-searchbar>
-  </ion-toolbar>
+  </ion-toolbar> -->
 </ion-header>
 
 <ion-content>
   <ion-refresher (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+  
+  
 
-  <ion-list #scheduleList [hidden]="shownSessions === 0">
+  <ion-list class="swtcls">
+     <ion-item>
+        <ion-row responsive-sm>
+          <h1>{{switchonetext}}</h1>
 
-    <ion-item-group *ngFor="let group of groups" [hidden]="group.hide">
+        </ion-row>  
 
-      <ion-item-divider sticky>
-        <ion-label>
-          {{group.time}}
-        </ion-label>
-      </ion-item-divider>
+        <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSwitch('1')" type="button" block>ON</button>
+            </ion-col>
+            <ion-col>
+              <button ion-button (click)="offSwitch('1')" color="light" block>OFF</button>
+            </ion-col>
+        </ion-row>
+     </ion-item>
 
-      <ion-item-sliding *ngFor="let session of group.sessions" #slidingItem [attr.track]="session.tracks[0] | lowercase" [hidden]="session.hide">
-
-        <button ion-item (click)="goToSessionDetail(session)">
-          <h3>{{session.name}}</h3>
-          <p>
-            {{session.timeStart}} &mdash;
-            {{session.timeEnd}}:
-            {{session.location}}
-          </p>
-        </button>
-
-        <ion-item-options>
-          <button ion-button color="favorite" (click)="addFavorite(slidingItem, session)" *ngIf="segment === 'all'">
-            Favorite
-          </button>
-          <button ion-button color="danger" (click)="removeFavorite(slidingItem, session, 'Remove Favorite')" *ngIf="segment === 'favorites'">
-            Remove
-          </button>
-        </ion-item-options>
-
-      </ion-item-sliding>
-
-    </ion-item-group>
+     <ion-item *ngIf="switchonetimernotset">
+        <ion-label>Timer</ion-label>
+        <ion-datetime displayFormat="MMM DD, YYYY HH:mm"  min="{{switchonetimer}}" max="2020-10-31" [(ngModel)]="switchonetimer">
+        </ion-datetime>
+     </ion-item> 
+     <ion-item *ngIf="switchonetimernotset">
+      <ion-label>Action</ion-label>
+      <ion-select [(ngModel)]="switchoneaction">
+        <ion-option value="ON">ON</ion-option>
+        <ion-option value="OFF">OFF</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item *ngIf="switchonetimernotset">
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSetTimer('switch1')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    <ion-item *ngIf="!switchonetimernotset">
+      <ion-row responsive-sm>
+            <ion-col>
+              <h3>{{switchonemsg}}</h3>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    
 
   </ion-list>
 
-  <ion-list-header [hidden]="shownSessions > 0">
-      No Sessions Found
-  </ion-list-header>
+  <ion-list class="swtcls">
+     <ion-item>
+        <ion-row responsive-sm>
+          <h1>{{switchtwotext}}</h1>
 
-  <ion-fab bottom right #fab>
-    <button ion-fab><ion-icon name="share"></ion-icon></button>
-    <ion-fab-list side="top">
-      <button ion-fab color="vimeo" (click)="openSocial('Vimeo', fab)"><ion-icon name="logo-vimeo"></ion-icon></button>
-      <button ion-fab color="google" (click)="openSocial('Google+', fab)"><ion-icon name="logo-googleplus"></ion-icon></button>
-      <button ion-fab color="twitter" (click)="openSocial('Twitter', fab)"><ion-icon name="logo-twitter"></ion-icon></button>
-      <button ion-fab color="facebook" (click)="openSocial('Facebook', fab)"><ion-icon name="logo-facebook"></ion-icon></button>
-    </ion-fab-list>
-  </ion-fab>
+        </ion-row>  
 
+        <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSwitch('2')" type="button" block>ON</button>
+            </ion-col>
+            <ion-col>
+              <button ion-button (click)="offSwitch('2')" color="light" block>OFF</button>
+            </ion-col>
+        </ion-row>
+     </ion-item>
+
+     <ion-item>
+        <ion-label>Timer</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchtwotimer}}" max="2020-10-31" [(ngModel)]="switchtwotimer">
+        </ion-datetime>
+     </ion-item> 
+     <ion-item>
+      <ion-label>Action</ion-label>
+      <ion-select [(ngModel)]="switchtwoaction">
+        <ion-option value="ON">ON</ion-option>
+        <ion-option value="OFF">OFF</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSetTimer('switch2')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    
+
+  </ion-list>
+
+
+  <ion-list class="swtcls">
+     <ion-item>
+        <ion-row responsive-sm>
+          <h1>{{switchthreetext}}</h1>
+
+        </ion-row>  
+
+        <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSwitch('3')" type="button" block>ON</button>
+            </ion-col>
+            <ion-col>
+              <button ion-button (click)="offSwitch('3')" color="light" block>OFF</button>
+            </ion-col>
+        </ion-row>
+     </ion-item>
+
+     <ion-item>
+        <ion-label>Timer</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchthreetimer}}" max="2020-10-31" [(ngModel)]="switchthreetimer">
+        </ion-datetime>
+     </ion-item> 
+     <ion-item>
+      <ion-label>Action</ion-label>
+      <ion-select [(ngModel)]="switchthreeaction">
+        <ion-option value="ON">ON</ion-option>
+        <ion-option value="OFF">OFF</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSetTimer('switch3')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    
+
+  </ion-list>
+
+
+  <ion-list class="swtcls">
+     <ion-item>
+        <ion-row responsive-sm>
+          <h1>{{switchfourtext}}</h1>
+
+        </ion-row>  
+
+        <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSwitch('4')" type="button" block>ON</button>
+            </ion-col>
+            <ion-col>
+              <button ion-button (click)="offSwitch('4')" color="light" block>OFF</button>
+            </ion-col>
+        </ion-row>
+     </ion-item>
+
+     <ion-item>
+        <ion-label>Timer</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchfourtimer}}" max="2020-10-31" [(ngModel)]="switchfourtimer">
+        </ion-datetime>
+     </ion-item> 
+     <ion-item>
+      <ion-label>Action</ion-label>
+      <ion-select [(ngModel)]="switchfouraction">
+        <ion-option value="ON">ON</ion-option>
+        <ion-option value="OFF">OFF</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSetTimer('switch4')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    
+
+  </ion-list>
+
+
+  <ion-list class="swtcls">
+     <ion-item>
+        <ion-row responsive-sm>
+          <h1>{{switchfivetext}}</h1>
+
+        </ion-row>  
+
+        <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSwitch('5')" type="button" block>ON</button>
+            </ion-col>
+            <ion-col>
+              <button ion-button (click)="offSwitch('5')" color="light" block>OFF</button>
+            </ion-col>
+        </ion-row>
+     </ion-item>
+
+     <ion-item>
+        <ion-label>Timer</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchfivetimer}}" max="2020-10-31" [(ngModel)]="switchfivetimer">
+        </ion-datetime>
+     </ion-item> 
+     <ion-item>
+      <ion-label>Action</ion-label>
+      <ion-select [(ngModel)]="switchfiveaction">
+        <ion-option value="ON">ON</ion-option>
+        <ion-option value="OFF">OFF</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSetTimer('switch5')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    
+
+  </ion-list>
+
+
+  
+
+  <ion-list class="swtcls">
+     <ion-item>
+        <ion-row responsive-sm>
+          <h1>{{switchsixtext}}</h1>
+
+        </ion-row>  
+
+        <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSwitch('6')" type="button" block>ON</button>
+            </ion-col>
+            <ion-col>
+              <button ion-button (click)="offSwitch('6')" color="light" block>OFF</button>
+            </ion-col>
+        </ion-row>
+     </ion-item>
+
+     <ion-item>
+        <ion-label>Timer</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchsixtimer}}" max="2020-10-31" [(ngModel)]="switchsixtimer">
+        </ion-datetime>
+     </ion-item> 
+     <ion-item>
+      <ion-label>Action</ion-label>
+      <ion-select [(ngModel)]="switchsixaction">
+        <ion-option value="ON">ON</ion-option>
+        <ion-option value="OFF">OFF</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSetTimer('switch6')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    
+
+  </ion-list>
+
+
+
+  <ion-list class="swtcls">
+     <ion-item>
+        <ion-row responsive-sm>
+          <h1>{{switchseventext}}</h1>
+
+        </ion-row>  
+
+        <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSwitch('7')" type="button" block>ON</button>
+            </ion-col>
+            <ion-col>
+              <button ion-button (click)="offSwitch('7')" color="light" block>OFF</button>
+            </ion-col>
+        </ion-row>
+     </ion-item>
+
+     <ion-item>
+        <ion-label>Timer</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchseventimer}}" max="2020-10-31" [(ngModel)]="switchseventimer">
+        </ion-datetime>
+     </ion-item> 
+     <ion-item>
+      <ion-label>Action</ion-label>
+      <ion-select [(ngModel)]="switchsevenaction">
+        <ion-option value="ON">ON</ion-option>
+        <ion-option value="OFF">OFF</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSetTimer('switch7')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    
+
+  </ion-list>
+
+
+  <ion-list class="swtcls">
+     <ion-item>
+        <ion-row responsive-sm>
+          <h1>{{switcheighttext}}</h1>
+
+        </ion-row>  
+
+        <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSwitch('8')" type="button" block>ON</button>
+            </ion-col>
+            <ion-col>
+              <button ion-button (click)="offSwitch('8')" color="light" block>OFF</button>
+            </ion-col>
+        </ion-row>
+     </ion-item>
+
+     <ion-item>
+        <ion-label>Timer</ion-label>
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switcheighttimer}}" max="2020-10-31" [(ngModel)]="switcheighttimer">
+        </ion-datetime>
+     </ion-item> 
+     <ion-item>
+      <ion-label>Action</ion-label>
+      <ion-select [(ngModel)]="switcheightaction">
+        <ion-option value="ON">ON</ion-option>
+        <ion-option value="OFF">OFF</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSetTimer('switch8')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    
+
+  </ion-list>
 
 </ion-content>

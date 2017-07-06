@@ -1,19 +1,287 @@
+import { LoadingController, Loading } from 'ionic-angular';
+
 import { Injectable } from '@angular/core';
 
 import { Http } from '@angular/http';
 
 import { UserData } from './user-data';
 
+import { LocalNotifications } from '@ionic-native/local-notifications';
+
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/observable/of';
+import 'rxjs/add/operator/catch';
 
 
 @Injectable()
 export class ConferenceData {
   data: any;
+  loading: Loading;
 
-  constructor(public http: Http, public user: UserData) { }
+  constructor(public http: Http, public user: UserData, private localNotifications: LocalNotifications, public loadingCtrl: LoadingController) 
+  { 
+
+
+
+  }
+
+  /*hitSwitch(datatopass: any): any {
+    if (!datatopass) {
+      return Observable.of({switchnothit:"on"});
+    } else {
+      let tempurl = 'https://www.google.com';
+     
+      return this.http.get(tempurl) 
+                       .map((res:Response) => res.json()) 
+                       .catch((error:any) => Observable.throw(error.json().error || 'Server error')); 
+
+    }
+  }*/
+
+  hitSwitch(data: any): any {
+    
+    let tempurl = 'http://192.168.43.167/?pin=OFF'+data;
+   
+    if (!data) {
+      return Observable.of(data);
+    } else {
+      return this.http.get(tempurl);
+    }
+  }
+
+  hitOFFSwitch(data: any): any {
+    
+    let tempurl = 'http://192.168.43.167/?pin=ON'+data;
+
+    if (!data) {
+      return Observable.of(data);
+    } else {
+      return this.http.get(tempurl);
+    }
+  }
+
+
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+        content: 'Please wait...',
+        dismissOnPageChange:true,
+        duration:1000
+      });
+    this.loading.present();
+  }
+
+  setAlarm(data: any)
+  {
+      
+
+      return Observable.create( (observer: any) => {
+
+            let indiatime: any = new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"});
+            let indiatimedate: any  = new Date(indiatime);
+            let indiatimeinmiliseconds: any = indiatimedate.getTime();
+
+            
+            let usersetalarmdate: any  = new Date(data.usersetdatetime);
+            
+            
+
+            let usersetalarmdatemiliseconds: any = usersetalarmdate.getTime();
+            let differencetosetalarmfromnow: any = usersetalarmdatemiliseconds - indiatimeinmiliseconds;
+            let phonetime:any = new Date();
+           
+
+            let phonetimeinmiliseconds: any = phonetime.getTime();
+            let finaltimetosetalarm: any = phonetimeinmiliseconds + differencetosetalarmfromnow;
+
+            
+
+            let idforalarm:any = Math.floor(Math.random() * 20);
+         
+            let pointer: any = this;
+
+            //get all notification
+                    this.localNotifications.getAll().then((notifications: any) => {
+                       
+                           let donotdothis: boolean = false; 
+
+                           if(donotdothis && notifications.length > 0)
+                           {
+                                 
+                                 let notificationset: boolean = false;
+                                 let presentnotificationinloop: any;
+                                 let presentnotificationdata: any;
+                                 let updateddesciption: any;
+                                 let differencebetweensetnotificationtimeandnewnotificationtime: any;
+                                 let notificationtimestoredinnotification: any;
+                                 let milisecondsforstoretimestamp: any;
+                                 let datatosort: any;
+                                 let internaldatasort: any;
+
+                                  for(var i = 0; i < notifications.length; i++)
+                                  {
+                                            datatosort = JSON.parse(notifications[i].data);
+                                            internaldatasort = datatosort.actions;
+
+                                           
+
+                                            notificationtimestoredinnotification = new  Date(internaldatasort[0].timestamp);
+
+                                            milisecondsforstoretimestamp = notificationtimestoredinnotification.getTime();
+
+                                            differencebetweensetnotificationtimeandnewnotificationtime =  finaltimetosetalarm - milisecondsforstoretimestamp;
+
+                                           
+
+                                             if(differencebetweensetnotificationtimeandnewnotificationtime < 60000)
+                                             {
+                                                
+                                                //update this notification with new data
+                                                notificationset = true;
+                                                presentnotificationinloop = notifications[i];
+                                                presentnotificationdata = datatosort;
+                                                if(presentnotificationdata.hasOwnProperty("actions"))
+                                                { 
+                                                  data.dataoset.timestamp = new Date(finaltimetosetalarm);
+
+                                                  presentnotificationdata.actions.push(data.dataoset);  
+                                                }
+
+                                                updateddesciption = notifications[i].text + data.desciption;
+                                                alert(updateddesciption);
+
+
+
+                                                pointer.localNotifications.update({
+                                                   id: notifications[i].id, 
+                                                   title: data.title,  
+                                                   text: updateddesciption,
+                                                   sound: data.soundfile,
+                                                   at: new Date(finaltimetosetalarm),
+                                                   led: 'FF0000',
+                                                   data: presentnotificationdata
+
+                                                });
+
+                                                let res = { resposerecieved: 'false', errordescription: 'error' };
+                                                observer.next(res);
+                                                observer.complete();
+                                       
+                                             }
+                                    } //for loop end
+
+                          
+                            
+                                  if(!notificationset)
+                                  {
+                                      
+                                      
+                                      data.dataoset.timestamp = new Date(finaltimetosetalarm);
+
+                                      //set new notification
+                                      pointer.localNotifications.schedule({
+                                         id: idforalarm,  
+                                         title: data.title,  
+                                         text: data.desciption,
+                                         at: new Date(finaltimetosetalarm),
+                                         sound: data.soundfile,
+                                         led: 'FF0000',
+                                         data: data.dataoset
+                                      });
+
+                                        let res = { resposerecieved: 'false', errordescription: 'error' };
+                                        observer.next(res);
+                                        observer.complete();
+                           
+
+                                  }
+                           }
+                           else
+                           {
+                            
+                            
+
+                               data.dataoset.timestamp = new Date(finaltimetosetalarm);
+
+                              //schedule notification new
+                              pointer.localNotifications.schedule({
+                                 id: idforalarm,  
+                                 title: data.title,  
+                                 text: data.desciption,
+                                 sound: data.soundfile,
+                                 at: new Date(finaltimetosetalarm),
+                                 led: 'FF0000',
+                                 data: data.dataoset
+                              });
+
+                               let res = { resposerecieved: 'false', errordescription: 'error' };
+                               observer.next(res);
+                               observer.complete();
+                            }
+                 
+                        }); //get all notification ends
+
+                      
+         }); //observable ends here
+
+      
+    }
+
+  
+  getAlarm()
+  {
+    return Observable.create( (observer: any) => {
+          this.localNotifications.getAll().then((notifications: any) => {
+   
+             alert(JSON.stringify(notifications));
+             alert(notifications[0].at);
+
+             let res = { resposerecieved: 'false', errordescription: 'error' };
+             observer.next(res);
+             observer.complete();
+
+          
+   
+          });
+    });      
+
+  }  
+/*
+  public registerDevice(credentials: any) { 
+  
+      // At this point store the credentials to your backend!
+
+      //console.log("i am creating user");
+      // At this point store the credentials to your backend!
+      return Observable.create( (observer: any) => {
+        
+
+        this.parserunas.registerDevice(credentials).then(function(answer: any){ 
+          
+          if(answer)
+          {
+            let res = { resposerecieved: 'true' };
+            observer.next(res);
+            observer.complete();
+          }else{
+            let res = { resposerecieved: 'false', errordescription: "Not registered" };
+            observer.next(res);
+            observer.complete();
+          }   
+
+        }, function(error: any) {
+           //console.log(error); // will be called if getUser fails
+           let res = { resposerecieved: 'false', errordescription: error };
+           observer.next(res);
+           observer.complete();
+        });
+
+
+      });
+    
+  }*/
+
+
 
   load(): any {
     if (this.data) {
@@ -151,5 +419,8 @@ export class ConferenceData {
       return data.map;
     });
   }
+
+
+  
 
 }

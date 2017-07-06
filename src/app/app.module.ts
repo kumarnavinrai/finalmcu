@@ -28,6 +28,9 @@ import { SupportPage } from '../pages/support/support';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { Autostart } from '@ionic-native/autostart';
+import { BackgroundMode } from '@ionic-native/background-mode';
 
 
 @NgModule({
@@ -92,6 +95,9 @@ import { UserData } from '../providers/user-data';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     ConferenceData,
     UserData,
+    LocalNotifications,
+    Autostart,
+    BackgroundMode,
     InAppBrowser,
     SplashScreen
   ]

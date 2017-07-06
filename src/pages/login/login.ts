@@ -18,15 +18,21 @@ import { SignupPage } from '../signup/signup';
 export class LoginPage {
   login: UserOptions = { username: '', password: '' };
   submitted = false;
-
+  msg = '';
   constructor(public navCtrl: NavController, public userData: UserData) { }
 
   onLogin(form: NgForm) {
     this.submitted = true;
 
     if (form.valid) {
-      this.userData.login(this.login.username);
-      this.navCtrl.push(TabsPage);
+      if(this.login.username == 'admin' && this.login.password == 'demo')
+      {
+        this.userData.login(this.login.username);
+        this.navCtrl.push(TabsPage);
+      }else
+      {
+        this.msg = 'Username or password is wrong!';
+      }
     }
   }
 
