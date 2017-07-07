@@ -15,6 +15,8 @@ import { TutorialPage } from '../pages/tutorial/tutorial';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
 import { SupportPage } from '../pages/support/support';
+import { EditinfoPage } from '../pages/editinfo/editinfo';
+import { PhonePage } from '../pages/phone/phone';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
@@ -56,11 +58,13 @@ export class ConferenceApp {
   ];
   loggedInPages: PageInterface[] = [
      { title: 'Settings', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'calendar' },
-    { title: 'Home', name: 'TabsPage', component: TabsPage, tabComponent: SpeakerListPage, index: 1, icon: 'contacts' },
+    { title: 'Home', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'contacts' },
     { title: 'Laptop', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map' },
-    { title: 'Phone', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
+    { title: 'Phone', name: 'TabsPage', component: TabsPage, tabComponent: PhonePage, index: 3, icon: 'information-circle' },
     { title: 'Water Tank', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
     { title: 'Alarm', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
+    { title: 'Edit', name: 'EditinfoPage', component: TabsPage, tabComponent: EditinfoPage, icon: 'information-circle' },
+    
     { title: 'Account', name: 'AccountPage', component: AccountPage, icon: 'person' },
     { title: 'Support', name: 'SupportPage', component: SupportPage, icon: 'help' },
     { title: 'Logout', name: 'TabsPage', component: TabsPage, icon: 'log-out', logsOut: true }
@@ -266,7 +270,7 @@ export class ConferenceApp {
             }
 
             if(simpledata.hasOwnProperty('switch2')){
-                
+                check.storage.set('switchtwotimernotset','no');
                 if(simpledata.switch2 == 'ON')
                 {
                   check.onSwitch(2);
@@ -279,6 +283,7 @@ export class ConferenceApp {
             }
 
             if(simpledata.hasOwnProperty('switch3')){
+                check.storage.set('switchthreetimernotset','no');
                 if(simpledata.switch3 == 'ON')
                 {
                   check.onSwitch(3);
@@ -291,6 +296,7 @@ export class ConferenceApp {
             }
 
             if(simpledata.hasOwnProperty('switch4')){
+                check.storage.set('switchfourtimernotset','no');
                 if(simpledata.switch4 == 'ON')
                 {
                   check.onSwitch(4);
@@ -303,6 +309,7 @@ export class ConferenceApp {
             }
 
             if(simpledata.hasOwnProperty('switch5')){
+                check.storage.set('switchfivetimernotset','no');
                 if(simpledata.switch5 == 'ON')
                 {
                   check.onSwitch(5);
@@ -315,6 +322,7 @@ export class ConferenceApp {
             }
 
             if(simpledata.hasOwnProperty('switch6')){
+                check.storage.set('switchsixtimernotset','no');
                 if(simpledata.switch6 == 'ON')
                 {
                   check.onSwitch(6);
@@ -327,6 +335,7 @@ export class ConferenceApp {
             }
 
             if(simpledata.hasOwnProperty('switch7')){
+                check.storage.set('switchseventimernotset','no');
                 if(simpledata.switch7 == 'ON')
                 {
                   check.onSwitch(7);
@@ -339,6 +348,7 @@ export class ConferenceApp {
             }
 
             if(simpledata.hasOwnProperty('switch8')){
+                check.storage.set('switcheighttimernotset','no');
                 if(simpledata.switch8 == 'ON')
                 {
                   check.onSwitch(8);
@@ -351,7 +361,7 @@ export class ConferenceApp {
             }
 
 
-            check.storage.set('appstartedfirsttime', 'Navin Kumar'+ notification.id);
+            
         });
       }  
 

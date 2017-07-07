@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { NavParams } from 'ionic-angular';
 
-import { AboutPage } from '../about/about';
+import { PhonePage } from '../phone/phone';
 import { MapPage } from '../map/map';
 import { SchedulePage } from '../schedule/schedule';
 import { SpeakerListPage } from '../speaker-list/speaker-list';
@@ -15,7 +15,7 @@ export class TabsPage {
   tab1Root: any = SchedulePage;
   tab2Root: any = SpeakerListPage;
   tab3Root: any = MapPage;
-  tab4Root: any = AboutPage;
+  tab4Root: any = PhonePage;
   mySelectedIndex: number;
 
   constructor(navParams: NavParams) {

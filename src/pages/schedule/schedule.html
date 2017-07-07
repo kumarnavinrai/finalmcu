@@ -39,6 +39,8 @@
   
 
   <ion-list class="swtcls">
+  
+     
      <ion-item>
         <ion-row responsive-sm>
           <h1>{{switchonetext}}</h1>
@@ -57,7 +59,7 @@
 
      <ion-item *ngIf="switchonetimernotset">
         <ion-label>Timer</ion-label>
-        <ion-datetime displayFormat="MMM DD, YYYY HH:mm"  min="{{switchonetimer}}" max="2020-10-31" [(ngModel)]="switchonetimer">
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm"  min="{{mintimer}}" max="2020-10-31" [(ngModel)]="switchonetimer">
         </ion-datetime>
      </ion-item> 
      <ion-item *ngIf="switchonetimernotset">
@@ -76,6 +78,9 @@
     </ion-item>
     <ion-item *ngIf="!switchonetimernotset">
       <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onUnsetTimer('switch1')"  block>UNSET TIMER</button>
+            </ion-col>
             <ion-col>
               <h3>{{switchonemsg}}</h3>
             </ion-col>
@@ -102,22 +107,32 @@
         </ion-row>
      </ion-item>
 
-     <ion-item>
+     <ion-item *ngIf="switchtwotimernotset">
         <ion-label>Timer</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchtwotimer}}" max="2020-10-31" [(ngModel)]="switchtwotimer">
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{mintimer}}" max="2020-10-31" [(ngModel)]="switchtwotimer">
         </ion-datetime>
      </ion-item> 
-     <ion-item>
+     <ion-item *ngIf="switchtwotimernotset">
       <ion-label>Action</ion-label>
       <ion-select [(ngModel)]="switchtwoaction">
         <ion-option value="ON">ON</ion-option>
         <ion-option value="OFF">OFF</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="switchtwotimernotset">
       <ion-row responsive-sm>
             <ion-col>
               <button ion-button (click)="onSetTimer('switch2')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    <ion-item *ngIf="!switchtwotimernotset">
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onUnsetTimer('switch2')"  block>UNSET TIMER</button>
+            </ion-col>
+            <ion-col>
+              <h3>{{switchtwomsg}}</h3>
             </ion-col>
         </ion-row>
     </ion-item>
@@ -143,22 +158,32 @@
         </ion-row>
      </ion-item>
 
-     <ion-item>
+     <ion-item *ngIf="switchthreetimernotset">
         <ion-label>Timer</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchthreetimer}}" max="2020-10-31" [(ngModel)]="switchthreetimer">
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{mintimer}}" max="2020-10-31" [(ngModel)]="switchthreetimer">
         </ion-datetime>
      </ion-item> 
-     <ion-item>
+     <ion-item *ngIf="switchthreetimernotset">
       <ion-label>Action</ion-label>
       <ion-select [(ngModel)]="switchthreeaction">
         <ion-option value="ON">ON</ion-option>
         <ion-option value="OFF">OFF</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="switchthreetimernotset">
       <ion-row responsive-sm>
             <ion-col>
               <button ion-button (click)="onSetTimer('switch3')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    <ion-item *ngIf="!switchthreetimernotset">
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onUnsetTimer('switch3')"  block>UNSET TIMER</button>
+            </ion-col>
+            <ion-col>
+              <h3>{{switchthreemsg}}</h3>
             </ion-col>
         </ion-row>
     </ion-item>
@@ -184,22 +209,32 @@
         </ion-row>
      </ion-item>
 
-     <ion-item>
+     <ion-item *ngIf="switchfourtimernotset">
         <ion-label>Timer</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchfourtimer}}" max="2020-10-31" [(ngModel)]="switchfourtimer">
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{mintimer}}" max="2020-10-31" [(ngModel)]="switchfourtimer">
         </ion-datetime>
      </ion-item> 
-     <ion-item>
+     <ion-item *ngIf="switchfourtimernotset">
       <ion-label>Action</ion-label>
       <ion-select [(ngModel)]="switchfouraction">
         <ion-option value="ON">ON</ion-option>
         <ion-option value="OFF">OFF</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="switchfourtimernotset">
       <ion-row responsive-sm>
             <ion-col>
               <button ion-button (click)="onSetTimer('switch4')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    <ion-item *ngIf="!switchfourtimernotset">
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onUnsetTimer('switch4')"  block>UNSET TIMER</button>
+            </ion-col>
+            <ion-col>
+              <h3>{{switchfourmsg}}</h3>
             </ion-col>
         </ion-row>
     </ion-item>
@@ -225,22 +260,32 @@
         </ion-row>
      </ion-item>
 
-     <ion-item>
+     <ion-item *ngIf="switchfivetimernotset">
         <ion-label>Timer</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchfivetimer}}" max="2020-10-31" [(ngModel)]="switchfivetimer">
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{mintimer}}" max="2020-10-31" [(ngModel)]="switchfivetimer">
         </ion-datetime>
      </ion-item> 
-     <ion-item>
+     <ion-item *ngIf="switchfivetimernotset">
       <ion-label>Action</ion-label>
       <ion-select [(ngModel)]="switchfiveaction">
         <ion-option value="ON">ON</ion-option>
         <ion-option value="OFF">OFF</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="switchfivetimernotset">
       <ion-row responsive-sm>
             <ion-col>
               <button ion-button (click)="onSetTimer('switch5')"  block>SET TIMER</button>
+            </ion-col>
+        </ion-row>
+    </ion-item>
+    <ion-item *ngIf="!switchfivetimernotset">
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onUnsetTimer('switch5')"  block>UNSET TIMER</button>
+            </ion-col>
+            <ion-col>
+              <h3>{{switchfivemsg}}</h3>
             </ion-col>
         </ion-row>
     </ion-item>
@@ -268,26 +313,35 @@
         </ion-row>
      </ion-item>
 
-     <ion-item>
+     <ion-item *ngIf="switchsixtimernotset">
         <ion-label>Timer</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchsixtimer}}" max="2020-10-31" [(ngModel)]="switchsixtimer">
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{mintimer}}" max="2020-10-31" [(ngModel)]="switchsixtimer">
         </ion-datetime>
      </ion-item> 
-     <ion-item>
+     <ion-item *ngIf="switchsixtimernotset">
       <ion-label>Action</ion-label>
       <ion-select [(ngModel)]="switchsixaction">
         <ion-option value="ON">ON</ion-option>
         <ion-option value="OFF">OFF</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="switchsixtimernotset">
       <ion-row responsive-sm>
             <ion-col>
               <button ion-button (click)="onSetTimer('switch6')"  block>SET TIMER</button>
             </ion-col>
         </ion-row>
     </ion-item>
-    
+    <ion-item *ngIf="!switchsixtimernotset">
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onUnsetTimer('switch6')"  block>UNSET TIMER</button>
+            </ion-col>
+            <ion-col>
+              <h3>{{switchsixmsg}}</h3>
+            </ion-col>
+        </ion-row>
+    </ion-item>
 
   </ion-list>
 
@@ -310,26 +364,35 @@
         </ion-row>
      </ion-item>
 
-     <ion-item>
+     <ion-item *ngIf="switchseventimernotset">
         <ion-label>Timer</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switchseventimer}}" max="2020-10-31" [(ngModel)]="switchseventimer">
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{mintimer}}" max="2020-10-31" [(ngModel)]="switchseventimer">
         </ion-datetime>
      </ion-item> 
-     <ion-item>
+     <ion-item *ngIf="switchseventimernotset">
       <ion-label>Action</ion-label>
       <ion-select [(ngModel)]="switchsevenaction">
         <ion-option value="ON">ON</ion-option>
         <ion-option value="OFF">OFF</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="switchseventimernotset">
       <ion-row responsive-sm>
             <ion-col>
               <button ion-button (click)="onSetTimer('switch7')"  block>SET TIMER</button>
             </ion-col>
         </ion-row>
     </ion-item>
-    
+    <ion-item *ngIf="!switchseventimernotset">
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onUnsetTimer('switch7')"  block>UNSET TIMER</button>
+            </ion-col>
+            <ion-col>
+              <h3>{{switchsevenmsg}}</h3>
+            </ion-col>
+        </ion-row>
+    </ion-item>
 
   </ion-list>
 
@@ -351,26 +414,35 @@
         </ion-row>
      </ion-item>
 
-     <ion-item>
+     <ion-item *ngIf="switcheighttimernotset">
         <ion-label>Timer</ion-label>
-        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{switcheighttimer}}" max="2020-10-31" [(ngModel)]="switcheighttimer">
+        <ion-datetime displayFormat="YYYY-MM-DD HH:mm" min="{{mintimer}}" max="2020-10-31" [(ngModel)]="switcheighttimer">
         </ion-datetime>
      </ion-item> 
-     <ion-item>
+     <ion-item *ngIf="switcheighttimernotset">
       <ion-label>Action</ion-label>
       <ion-select [(ngModel)]="switcheightaction">
         <ion-option value="ON">ON</ion-option>
         <ion-option value="OFF">OFF</ion-option>
       </ion-select>
     </ion-item>
-    <ion-item>
+    <ion-item *ngIf="switcheighttimernotset">
       <ion-row responsive-sm>
             <ion-col>
               <button ion-button (click)="onSetTimer('switch8')"  block>SET TIMER</button>
             </ion-col>
         </ion-row>
     </ion-item>
-    
+    <ion-item *ngIf="!switcheighttimernotset">
+      <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onUnsetTimer('switch8')"  block>UNSET TIMER</button>
+            </ion-col>
+            <ion-col>
+              <h3>{{switcheightmsg}}</h3>
+            </ion-col>
+        </ion-row>
+    </ion-item>
 
   </ion-list>
 

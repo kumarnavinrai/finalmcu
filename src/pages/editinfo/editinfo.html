@@ -1,0 +1,67 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+		<ion-title>Edit Information</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content class="login-page">
+
+	
+
+	<form #switchesForm="ngForm" novalidate>
+		<ion-list no-lines>
+			<ion-item *ngIf="msg!=''">
+		          <h2>{{msg}}</h2>
+		    </ion-item> 
+			<ion-item>
+				<ion-label stacked color="primary">Switch One</ion-label>
+				<ion-input [(ngModel)]="switches.switch1" name="Switch One" type="text" #switch1="ngModel">
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label stacked color="primary">Switch Two</ion-label>
+				<ion-input [(ngModel)]="switches.switch2" name="Switch Two" type="text" #switch2="ngModel">
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label stacked color="primary">Switch Three</ion-label>
+				<ion-input [(ngModel)]="switches.switch3" name="Switch Three" type="text" #switch3="ngModel">
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label stacked color="primary">Switch Four</ion-label>
+				<ion-input [(ngModel)]="switches.switch4" name="Switch Four" type="text" #switch4="ngModel">
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label stacked color="primary">Switch Five</ion-label>
+				<ion-input [(ngModel)]="switches.switch5" name="Switch Five" type="text" #switch5="ngModel">
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label stacked color="primary">Switch Six</ion-label>
+				<ion-input [(ngModel)]="switches.switch6" name="Switch Six" type="text" #switch6="ngModel">
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label stacked color="primary">Switch Seven</ion-label>
+				<ion-input [(ngModel)]="switches.switch7" name="Switch Seven" type="text" #switch7="ngModel">
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label stacked color="primary">Switch Eight</ion-label>
+				<ion-input [(ngModel)]="switches.switch8" name="Switch Eight" type="text" #switch8="ngModel">
+				</ion-input>
+			</ion-item>
+				
+		</ion-list>
+
+		<div padding>
+			<button ion-button (click)="onSave(switchesForm)" type="submit" block>Save</button>
+		</div>
+	</form>
+
+</ion-content>

@@ -1,0 +1,65 @@
+<ion-header>
+	<ion-navbar>
+		<button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+		<ion-title>Phone Charging</ion-title>
+	</ion-navbar>
+</ion-header>
+
+<ion-content class="login-page">
+
+	
+
+	
+		<ion-list no-lines>
+		    <ion-item *ngIf="msg!=''">
+		    	<h2>{{msg}}</h2>
+		    </ion-item>
+			<ion-item>
+				<ion-label stacked color="primary">Switch assigned to phone</ion-label>
+				<ion-select [(ngModel)]="switchedassignedtophone">
+			        <ion-option value="0">Select switch</ion-option>
+			        <ion-option value="switch1">{{switchonetext}}</ion-option>
+			        <ion-option value="switch2">{{switchtwotext}}</ion-option>
+			        <ion-option value="switch3">{{switchthreetext}}</ion-option>
+			        <ion-option value="switch4">{{switchfourtext}}</ion-option>
+			        <ion-option value="switch5">{{switchfivetext}}</ion-option>
+			        <ion-option value="switch6">{{switchsixtext}}</ion-option>
+			        <ion-option value="switch7">{{switchseventext}}</ion-option>
+			        <ion-option value="switch8">{{switcheighttext}}</ion-option>
+			    </ion-select>
+    
+			</ion-item>
+			<ion-item>
+				<button ion-button (click)="saveSwitchSelection()" type="button" block>Save Phone Switch</button>
+			</ion-item>
+			<ion-item *ngIf="switchedassignedtophone!=0">
+				<ion-label stacked color="primary">How long your phone takes to full change (HH:mm)</ion-label>
+				<ion-datetime displayFormat="YYYY-MM-DD HH:mm" pickerFormat="YYYY-MM-DD HH:mm" [(ngModel)]="durationoffullcharge">
+        		</ion-datetime>
+			</ion-item>
+			<ion-item *ngIf="switchedassignedtophone!=0">
+				<ion-label stacked color="primary">% of charging in phone now</ion-label>
+				<ion-range min="0" max="100" pin="true" debounce="500" [(ngModel)]="percentageofchargingpresent" color="secondary">
+				    <ion-label range-left>0%</ion-label>
+				    <ion-label range-right>100%</ion-label>
+				</ion-range>
+				
+			</ion-item>
+			<ion-item *ngIf="switchedassignedtophone!=0">
+				<button ion-button (click)="onStartCharging()" type="button" block>Set  Charging Timer</button>
+			</ion-item>
+			<ion-item *ngIf="switchedassignedtophone!=0">
+				<button ion-button (click)="onStopCharging()" type="button" block>Stop Charging</button>
+			</ion-item>
+			<ion-item *ngIf="switchedassignedtophone!=0">
+				<button ion-button (click)="onStartChargingManual()" type="button" block>Start Charging Manual</button>
+			</ion-item>
+				
+		</ion-list>
+
+		
+	
+
+</ion-content>

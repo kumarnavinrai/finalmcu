@@ -66,10 +66,87 @@ export class ConferenceData {
     this.loading = this.loadingCtrl.create({
         content: 'Please wait...',
         dismissOnPageChange:true,
-        duration:1000
+        duration:15000
       });
     this.loading.present();
   }
+
+  setAlarm(data: any)
+  {
+      
+
+      return Observable.create( (observer: any) => {
+
+            let indiatime: any = new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"});
+            let indiatimedate: any  = new Date(indiatime);
+            let indiatimeinmiliseconds: any = indiatimedate.getTime();
+
+            
+            let usersetalarmdate: any  = new Date(data.usersetdatetime);
+            
+            
+
+            let usersetalarmdatemiliseconds: any = usersetalarmdate.getTime();
+            let differencetosetalarmfromnow: any = usersetalarmdatemiliseconds - indiatimeinmiliseconds;
+            let phonetime:any = new Date();
+           
+
+            let phonetimeinmiliseconds: any = phonetime.getTime();
+            let finaltimetosetalarm: any = phonetimeinmiliseconds + differencetosetalarmfromnow;
+
+            
+
+            let idforalarm:any = Math.floor(Math.random() * 200);
+         
+            let pointer: any = this;
+
+                        
+
+                               data.dataoset.timestamp = new Date(finaltimetosetalarm);
+
+                              //schedule notification new
+                              pointer.localNotifications.schedule({
+                                 id: idforalarm,  
+                                 title: data.title,  
+                                 text: data.desciption,
+                                 sound: data.soundfile,
+                                 at: new Date(finaltimetosetalarm),
+                                 led: 'FF0000',
+                                 data: data.dataoset
+                              });
+
+                               let res = { resposerecieved: 'false', errordescription: 'error' };
+                               observer.next(res);
+                               observer.complete();
+                           
+                 
+            
+                      
+         }); //observable ends here
+
+      
+    }
+
+  
+  getAlarm()
+  {
+    return Observable.create( (observer: any) => {
+          this.localNotifications.getAll().then((notifications: any) => {
+   
+             alert(JSON.stringify(notifications));
+             alert(notifications[0].at);
+
+             let res = { resposerecieved: 'false', errordescription: 'error' };
+             observer.next(res);
+             observer.complete();
+
+          
+   
+          });
+    });      
+
+  }  
+/*
 
   setAlarm(data: any)
   {
@@ -227,26 +304,6 @@ export class ConferenceData {
       
     }
 
-  
-  getAlarm()
-  {
-    return Observable.create( (observer: any) => {
-          this.localNotifications.getAll().then((notifications: any) => {
-   
-             alert(JSON.stringify(notifications));
-             alert(notifications[0].at);
-
-             let res = { resposerecieved: 'false', errordescription: 'error' };
-             observer.next(res);
-             observer.complete();
-
-          
-   
-          });
-    });      
-
-  }  
-/*
   public registerDevice(credentials: any) { 
   
       // At this point store the credentials to your backend!

@@ -25,6 +25,10 @@ import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
 import { SupportPage } from '../pages/support/support';
+import { EditinfoPage } from '../pages/editinfo/editinfo';
+import { PhonePage } from '../pages/phone/phone';
+
+
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
@@ -48,6 +52,8 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     SpeakerDetailPage,
     SpeakerListPage,
     TabsPage,
+    EditinfoPage,
+    PhonePage,
     TutorialPage,
     SupportPage
   ],
@@ -68,7 +74,11 @@ import { BackgroundMode } from '@ionic-native/background-mode';
         { component: SupportPage, name: 'SupportPage', segment: 'support' },
         { component: LoginPage, name: 'LoginPage', segment: 'login' },
         { component: AccountPage, name: 'AccountPage', segment: 'account' },
-        { component: SignupPage, name: 'SignupPage', segment: 'signup' }
+        { component: SignupPage, name: 'SignupPage', segment: 'signup' },
+        { component: EditinfoPage, name: 'EditinfoPage', segment: 'editinfo' },
+        { component: PhonePage, name: 'PhonePage', segment: 'phone' },
+        
+        
       ]
     }),
     IonicStorageModule.forRoot()
@@ -88,6 +98,8 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     SpeakerDetailPage,
     SpeakerListPage,
     TabsPage,
+    EditinfoPage,
+    PhonePage,
     TutorialPage,
     SupportPage
   ],

@@ -13,6 +13,7 @@ import { Storage } from '@ionic/storage';
 
 import { ConferenceData } from '../../providers/conference-data';
 import { UserData } from '../../providers/user-data';
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 
@@ -87,6 +88,7 @@ export class SchedulePage {
   switcheightaction: any;
   switcheighttimernotset: boolean = true;
   switcheightmsg: string = '';
+  mintimer: any;
 
 
   constructor(
@@ -98,7 +100,8 @@ export class SchedulePage {
     public toastCtrl: ToastController,
     public confData: ConferenceData,
     public storage: Storage,
-    public user: UserData,
+    private localNotifications: LocalNotifications,
+    public user: UserData
   ) 
   {
     this.switchonetimer = new Date().toISOString();
@@ -126,12 +129,77 @@ export class SchedulePage {
 
     this.switcheighttimer = new Date().toISOString();
     this.switcheightaction = 'ON';
+
+    this.mintimer = new Date().toISOString();
+
+    this.getData();
       
+  }
+
+  getData()
+  {
+     this.storage.get('switchonetext').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.switchonetext = value;
+          }
+         
+      });
+
+      this.storage.get('switchtwotext').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.switchtwotext = value;
+          }
+      });
+
+      this.storage.get('switchthreetext').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.switchthreetext = value;
+          }  
+          
+      });
+
+      this.storage.get('switchfourtext').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.switchfourtext = value;
+          }
+      });
+
+      this.storage.get('switchfivetext').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.switchfivetext = value;
+          }
+      });
+
+      this.storage.get('switchsixtext').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.switchsixtext = value;
+          }
+      });
+
+      this.storage.get('switchseventext').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.switchseventext = value;
+          }
+      });
+
+      this.storage.get('switcheighttext').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.switcheighttext = value;
+          }
+      });
   }
 
   onTimer() {
       let pointer: any = this;
-      setInterval(function(){ pointer.checkTimer(); }, 30000);
+      setInterval(function(){ pointer.checkTimer(); }, 15000);
   }
 
   checkTimer()
@@ -234,6 +302,117 @@ export class SchedulePage {
     });
   }
 
+  getAllNotifications()
+  {
+    this.localNotifications.getAll().then((notifications: any) => {
+        alert(JSON.stringify(notifications));
+    });
+  }
+
+  onUnsetTimer(data: any)
+  {
+        this.confData.showLoading();
+        this.localNotifications.getAll().then((notifications: any) => {
+           
+           let notificationdata: any;
+           if(notifications.length > 0)
+           {
+              for(var i = 0; i < notifications.length; i++)
+              {
+                notificationdata = JSON.parse(notifications[i].data);
+                notificationdata = notificationdata.actions[0];
+
+                if(notificationdata.hasOwnProperty(data))
+                {
+                
+                  this.localNotifications.clear(notifications[i].id).then(() => {
+                      
+                  });
+
+                  this.localNotifications.cancel(notifications[i].id).then(() => {
+                      this.setData(data);
+                      this.showAlertUnset();
+                  });
+ 
+                }
+              }
+              
+           }
+           else
+           {
+             this.setData(data);
+             true;
+           }
+ 
+        });
+
+  }
+
+  setData(data: any)
+  {
+
+      if(data == 'switch1')
+      {
+        this.storage.set('switchonetimernotset','no');
+      }
+      
+      if(data == 'switch2')
+      {
+        this.storage.set('switchtwotimernotset','no');
+      }
+
+      if(data == 'switch3')
+      {
+        this.storage.set('switchthreetimernotset','no');
+      }
+
+      if(data == 'switch4')
+      {
+        this.storage.set('switchfourtimernotset','no');
+      }
+
+      if(data == 'switch5')
+      {
+        this.storage.set('switchfivetimernotset','no');
+      }
+
+      if(data == 'switch6')
+      {
+        this.storage.set('switchsixtimernotset','no');
+      }
+
+      if(data == 'switch7')
+      {
+        this.storage.set('switchseventimernotset','no');
+      }
+
+      if(data == 'switch8')
+      {
+        this.storage.set('switcheighttimernotset','no');
+      }
+  } 
+
+  showAlertUnset() 
+  {
+      let alert: any = this.alertCtrl.create({
+        title: 'Success',
+        message: 'Timer unset!',
+        buttons: [
+          
+          {
+            text: 'Ok',
+            handler: () => {
+              
+            }
+          }
+        ]
+      });
+
+      
+        alert.present();
+      
+  }
+
   onSetTimer(data: any)
   {
     console.log(data);
@@ -266,64 +445,112 @@ export class SchedulePage {
     if(data == 'switch2')
     {
       datetime = this.switchtwotimer;
+      tempdatetimeformsg = datetime.replace("T", " ");
+      tempdatetimeformsg = tempdatetimeformsg.slice(0, -5);
+
       titletosend = 'Smart Automation'  
       actiontosend = this.switchtwotext + ' is turned '+ this.switchtwoaction + ' ';
       alaramtune = 'file:///storage/sdcard0/navin/alarm.mp3';
       dataoset = {actions:[{switch2: this.switchtwoaction}]};
+      this.storage.set('switchtwotimernotset','yes');
+      this.storage.set('switchtwotimermsg',this.switchtwotext + ' will trun '+ this.switchtwoaction + ' at ' + tempdatetimeformsg);
     }
 
     if(data == 'switch3')
     {
       datetime = this.switchthreetimer;
+      tempdatetimeformsg = datetime.replace("T", " ");
+      tempdatetimeformsg = tempdatetimeformsg.slice(0, -5);
+
       titletosend = 'Smart Automation'  
       actiontosend = this.switchthreetext + ' is turned '+ this.switchthreeaction + ' ';
       alaramtune = 'file:///storage/sdcard0/navin/alarm.mp3';
       dataoset = {actions:[{switch3: this.switchthreeaction}]};
+      this.storage.set('switchthreetimernotset','yes');
+      this.storage.set('switchthreetimermsg',this.switchthreetext + ' will trun '+ this.switchthreeaction + ' at ' + tempdatetimeformsg);
+
     }
 
     if(data == 'switch4')
     {
       datetime = this.switchfourtimer;
+      tempdatetimeformsg = datetime.replace("T", " ");
+      tempdatetimeformsg = tempdatetimeformsg.slice(0, -5);
+
       titletosend = 'Smart Automation'  
       actiontosend = this.switchfourtext + ' is turned '+ this.switchfouraction + ' ';
       alaramtune = 'file:///storage/sdcard0/navin/alarm.mp3';
       dataoset = {actions:[{switch4: this.switchfouraction}]};
+      this.storage.set('switchfourtimernotset','yes');
+      this.storage.set('switchfourtimermsg',this.switchfourtext + ' will trun '+ this.switchfouraction + ' at ' + tempdatetimeformsg);
+
     }
 
     if(data == 'switch5')
     {
       datetime = this.switchfivetimer;
+      tempdatetimeformsg = datetime.replace("T", " ");
+      tempdatetimeformsg = tempdatetimeformsg.slice(0, -5);
+
+
       titletosend = 'Smart Automation'  
       actiontosend = this.switchfivetext + ' is turned '+ this.switchfiveaction + ' ';
       alaramtune = 'file:///storage/sdcard0/navin/alarm.mp3';
       dataoset = {actions:[{switch5: this.switchfiveaction}]};
+      this.storage.set('switchfivetimernotset','yes');
+      this.storage.set('switchfivetimermsg',this.switchfivetext + ' will trun '+ this.switchfiveaction + ' at ' + tempdatetimeformsg);
+
+
     } 
 
     if(data == 'switch6')
     {
       datetime = this.switchsixtimer;
+      tempdatetimeformsg = datetime.replace("T", " ");
+      tempdatetimeformsg = tempdatetimeformsg.slice(0, -5);
+
+
       titletosend = 'Smart Automation'  
       actiontosend = this.switchsixtext + ' is turned '+ this.switchsixaction + ' ';
       alaramtune = 'file:///storage/sdcard0/navin/alarm.mp3';
       dataoset = {actions:[{switch6: this.switchsixaction}]};
+      this.storage.set('switchsixtimernotset','yes');
+      this.storage.set('switchsixtimermsg',this.switchsixtext + ' will trun '+ this.switchsixaction + ' at ' + tempdatetimeformsg);
+
+
     }  
 
     if(data == 'switch7')
     {
       datetime = this.switchseventimer;
+      tempdatetimeformsg = datetime.replace("T", " ");
+      tempdatetimeformsg = tempdatetimeformsg.slice(0, -5);
+
+
       titletosend = 'Smart Automation'  
       actiontosend = this.switchseventext + ' is turned '+ this.switchsevenaction + ' ';
       alaramtune = 'file:///storage/sdcard0/navin/alarm.mp3';
       dataoset = {actions:[{switch7: this.switchsevenaction}]};
+      this.storage.set('switchseventimernotset','yes');
+      this.storage.set('switchseventimermsg',this.switchseventext + ' will trun '+ this.switchsevenaction + ' at ' + tempdatetimeformsg);
+
     }
 
     if(data == 'switch8')
     {
       datetime = this.switcheighttimer;
+      tempdatetimeformsg = datetime.replace("T", " ");
+      tempdatetimeformsg = tempdatetimeformsg.slice(0, -5);
+
+
       titletosend = 'Smart Automation'  
       actiontosend = this.switcheighttext + ' is turned '+ this.switcheightaction + ' ';
       alaramtune = 'file:///storage/sdcard0/navin/alarm.mp3';
       dataoset = {actions:[{switch8: this.switcheightaction}]};
+      this.storage.set('switcheighttimernotset','yes');
+      this.storage.set('switcheighttimermsg',this.switcheighttext + ' will trun '+ this.switcheightaction + ' at ' + tempdatetimeformsg);
+
+
     }
 
     datetime = datetime.replace("T", " ");
