@@ -15,7 +15,6 @@ import { AboutPage } from '../pages/about/about';
 import { PopoverPage } from '../pages/about-popover/about-popover';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
-import { MapPage } from '../pages/map/map';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
@@ -27,6 +26,12 @@ import { TutorialPage } from '../pages/tutorial/tutorial';
 import { SupportPage } from '../pages/support/support';
 import { EditinfoPage } from '../pages/editinfo/editinfo';
 import { PhonePage } from '../pages/phone/phone';
+import { LaptopPage } from '../pages/laptop/laptop';
+import { WatermotorPage } from '../pages/watermotor/watermotor';
+import { AlarmPage } from '../pages/alarm/alarm';
+import { FileChooser } from '@ionic-native/file-chooser';
+import { FilePath } from '@ionic-native/file-path';
+
 
 
 
@@ -43,7 +48,6 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     AboutPage,
     AccountPage,
     LoginPage,
-    MapPage,
     PopoverPage,
     SchedulePage,
     ScheduleFilterPage,
@@ -54,6 +58,9 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     TabsPage,
     EditinfoPage,
     PhonePage,
+    LaptopPage,
+    WatermotorPage,
+    AlarmPage,
     TutorialPage,
     SupportPage
   ],
@@ -68,7 +75,6 @@ import { BackgroundMode } from '@ionic-native/background-mode';
         { component: ScheduleFilterPage, name: 'ScheduleFilter', segment: 'scheduleFilter' },
         { component: SpeakerListPage, name: 'SpeakerList', segment: 'speakerList' },
         { component: SpeakerDetailPage, name: 'SpeakerDetail', segment: 'speakerDetail/:speakerId' },
-        { component: MapPage, name: 'Map', segment: 'map' },
         { component: AboutPage, name: 'About', segment: 'about' },
         { component: TutorialPage, name: 'Tutorial', segment: 'tutorial' },
         { component: SupportPage, name: 'SupportPage', segment: 'support' },
@@ -77,6 +83,9 @@ import { BackgroundMode } from '@ionic-native/background-mode';
         { component: SignupPage, name: 'SignupPage', segment: 'signup' },
         { component: EditinfoPage, name: 'EditinfoPage', segment: 'editinfo' },
         { component: PhonePage, name: 'PhonePage', segment: 'phone' },
+        { component: LaptopPage, name: 'LaptopPage', segment: 'laptop' },
+        { component: AlarmPage, name: 'AlarmPage', segment: 'laptop' },
+        { component: WatermotorPage, name: 'WatermotorPage', segment: 'watermotor' },
         
         
       ]
@@ -89,7 +98,6 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     AboutPage,
     AccountPage,
     LoginPage,
-    MapPage,
     PopoverPage,
     SchedulePage,
     ScheduleFilterPage,
@@ -100,6 +108,9 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     TabsPage,
     EditinfoPage,
     PhonePage,
+    LaptopPage,
+    WatermotorPage,
+    AlarmPage,
     TutorialPage,
     SupportPage
   ],
@@ -110,6 +121,8 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     LocalNotifications,
     Autostart,
     BackgroundMode,
+    FilePath,
+    FileChooser,
     InAppBrowser,
     SplashScreen
   ]

@@ -9,13 +9,13 @@ import { ConferenceData } from '../../providers/conference-data';
 
 
 @Component({
-  selector: 'page-phone',
-  templateUrl: 'phone.html'
+  selector: 'page-laptop',
+  templateUrl: 'laptop.html'
 })
-export class PhonePage {
+export class LaptopPage {
   switches: PhoneOptions = { switchassigned: '', chargingtime: '', percentagechargednow: '' };
   submitted = false;
-  switchedassignedtophone: any;
+  switchedassignedtolaptop: any;
 
   switchonetext: any = 'Switch One';
   switchtwotext: any = 'Switch Two';
@@ -33,7 +33,7 @@ export class PhonePage {
   
   constructor(public navCtrl: NavController, public userData: UserData, public storage: Storage, public alertCtrl: AlertController, public confData: ConferenceData,) 
   {
-    this.switchedassignedtophone = 0;
+    this.switchedassignedtolaptop = 0;
 
     this.durationoffullcharge = new Date().toISOString();
     this.getData();
@@ -61,7 +61,7 @@ export class PhonePage {
             text: 'Ok',
             handler: () => {
               this.switchasgsaved = true;
-              this.storage.set('switchedassignedtophone',this.switchedassignedtophone);
+              this.storage.set('switchedassignedtolaptop',this.switchedassignedtolaptop);
               this.msg = 'Switch settings saved successfully!';
             }
           }
@@ -78,7 +78,7 @@ export class PhonePage {
   {
       let alert: any = this.alertCtrl.create({
         title: 'Success',
-        message: 'Phone is charging now!',
+        message: 'Laptop is charging now!',
         buttons: [
           {
             text: 'Cancel',
@@ -161,11 +161,11 @@ export class PhonePage {
           }
       });
 
-      this.storage.get('switchedassignedtophone').then((value) => {
+      this.storage.get('switchedassignedtolaptop').then((value) => {
          console.log(value);
           if(value != '' && value != null)
           {
-            this.switchedassignedtophone = value;
+            this.switchedassignedtolaptop = value;
             this.switchasgsaved = true;
           }  
           
@@ -281,42 +281,42 @@ export class PhonePage {
   {
     let dataoset: any;
     
-    if(this.switchedassignedtophone == 'switch1')
+    if(this.switchedassignedtolaptop == 'switch1')
     {
       dataoset = "1";
     }
 
-    if(this.switchedassignedtophone == 'switch2')
+    if(this.switchedassignedtolaptop == 'switch2')
     {
       dataoset = "2";
     }
 
-    if(this.switchedassignedtophone == 'switch3')
+    if(this.switchedassignedtolaptop == 'switch3')
     {
       dataoset = "3";
     }
 
-    if(this.switchedassignedtophone == 'switch4')
+    if(this.switchedassignedtolaptop == 'switch4')
     {
       dataoset = "4";
     }
 
-    if(this.switchedassignedtophone == 'switch5')
+    if(this.switchedassignedtolaptop == 'switch5')
     {
       dataoset = "5";
     }
 
-    if(this.switchedassignedtophone == 'switch6')
+    if(this.switchedassignedtolaptop == 'switch6')
     {
       dataoset = "6";
     }
 
-    if(this.switchedassignedtophone == 'switch7')
+    if(this.switchedassignedtolaptop == 'switch7')
     {
       dataoset = "7";
     }
 
-    if(this.switchedassignedtophone == 'switch8')
+    if(this.switchedassignedtolaptop == 'switch8')
     {
       dataoset = "8";
     }
@@ -328,42 +328,42 @@ export class PhonePage {
   {
     let dataoset: any;
     
-    if(this.switchedassignedtophone == 'switch1')
+    if(this.switchedassignedtolaptop == 'switch1')
     {
       dataoset = {actions:[{switch1: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch2')
+    if(this.switchedassignedtolaptop == 'switch2')
     {
       dataoset = {actions:[{switch2: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch3')
+    if(this.switchedassignedtolaptop == 'switch3')
     {
       dataoset = {actions:[{switch3: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch4')
+    if(this.switchedassignedtolaptop == 'switch4')
     {
       dataoset = {actions:[{switch4: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch5')
+    if(this.switchedassignedtolaptop == 'switch5')
     {
       dataoset = {actions:[{switch5: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch6')
+    if(this.switchedassignedtolaptop == 'switch6')
     {
       dataoset = {actions:[{switch6: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch7')
+    if(this.switchedassignedtolaptop == 'switch7')
     {
       dataoset = {actions:[{switch7: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch8')
+    if(this.switchedassignedtolaptop == 'switch8')
     {
       dataoset = {actions:[{switch8: "OFF"}]};
     }

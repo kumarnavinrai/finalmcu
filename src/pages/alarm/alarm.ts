@@ -5,17 +5,18 @@ import { PhoneOptions } from '../../interfaces/user-options';
 import { Storage } from '@ionic/storage';
 
 import { ConferenceData } from '../../providers/conference-data';
-
+import { FileChooser } from '@ionic-native/file-chooser';
+import { FilePath } from '@ionic-native/file-path';
 
 
 @Component({
-  selector: 'page-phone',
-  templateUrl: 'phone.html'
+  selector: 'page-alarm',
+  templateUrl: 'alarm.html'
 })
-export class PhonePage {
+export class AlarmPage {
   switches: PhoneOptions = { switchassigned: '', chargingtime: '', percentagechargednow: '' };
   submitted = false;
-  switchedassignedtophone: any;
+  switchedassignedtowatermotor: any;
 
   switchonetext: any = 'Switch One';
   switchtwotext: any = 'Switch Two';
@@ -31,9 +32,9 @@ export class PhonePage {
   msg: any = '';
   switchasgsaved: boolean = false;
   
-  constructor(public navCtrl: NavController, public userData: UserData, public storage: Storage, public alertCtrl: AlertController, public confData: ConferenceData,) 
+  constructor(public navCtrl: NavController, public userData: UserData, public storage: Storage, public alertCtrl: AlertController, public confData: ConferenceData, private fileChooser: FileChooser, private filePath: FilePath) 
   {
-    this.switchedassignedtophone = 0;
+    this.switchedassignedtowatermotor = 0;
 
     this.durationoffullcharge = new Date().toISOString();
     this.getData();
@@ -43,6 +44,17 @@ export class PhonePage {
   {
     
     this.showAlert();
+  }
+
+  pickFile()
+  {
+    this.fileChooser.open().then(uri => this.checkFilePath(uri)).catch(e => alert(e));
+  }
+
+  checkFilePath(path: any)
+  {    alert(path);
+      this.filePath.resolveNativePath(path).then(filePath => alert(filePath)).catch(err => alert(err));
+
   }
 
   showAlert() 
@@ -61,7 +73,7 @@ export class PhonePage {
             text: 'Ok',
             handler: () => {
               this.switchasgsaved = true;
-              this.storage.set('switchedassignedtophone',this.switchedassignedtophone);
+              this.storage.set('switchedassignedtowatermotor',this.switchedassignedtowatermotor);
               this.msg = 'Switch settings saved successfully!';
             }
           }
@@ -78,7 +90,7 @@ export class PhonePage {
   {
       let alert: any = this.alertCtrl.create({
         title: 'Success',
-        message: 'Phone is charging now!',
+        message: 'Laptop is charging now!',
         buttons: [
           {
             text: 'Cancel',
@@ -161,11 +173,11 @@ export class PhonePage {
           }
       });
 
-      this.storage.get('switchedassignedtophone').then((value) => {
+      this.storage.get('switchedassignedtowatermotor').then((value) => {
          console.log(value);
           if(value != '' && value != null)
           {
-            this.switchedassignedtophone = value;
+            this.switchedassignedtowatermotor = value;
             this.switchasgsaved = true;
           }  
           
@@ -281,42 +293,42 @@ export class PhonePage {
   {
     let dataoset: any;
     
-    if(this.switchedassignedtophone == 'switch1')
+    if(this.switchedassignedtowatermotor == 'switch1')
     {
       dataoset = "1";
     }
 
-    if(this.switchedassignedtophone == 'switch2')
+    if(this.switchedassignedtowatermotor == 'switch2')
     {
       dataoset = "2";
     }
 
-    if(this.switchedassignedtophone == 'switch3')
+    if(this.switchedassignedtowatermotor == 'switch3')
     {
       dataoset = "3";
     }
 
-    if(this.switchedassignedtophone == 'switch4')
+    if(this.switchedassignedtowatermotor == 'switch4')
     {
       dataoset = "4";
     }
 
-    if(this.switchedassignedtophone == 'switch5')
+    if(this.switchedassignedtowatermotor == 'switch5')
     {
       dataoset = "5";
     }
 
-    if(this.switchedassignedtophone == 'switch6')
+    if(this.switchedassignedtowatermotor == 'switch6')
     {
       dataoset = "6";
     }
 
-    if(this.switchedassignedtophone == 'switch7')
+    if(this.switchedassignedtowatermotor == 'switch7')
     {
       dataoset = "7";
     }
 
-    if(this.switchedassignedtophone == 'switch8')
+    if(this.switchedassignedtowatermotor == 'switch8')
     {
       dataoset = "8";
     }
@@ -328,42 +340,42 @@ export class PhonePage {
   {
     let dataoset: any;
     
-    if(this.switchedassignedtophone == 'switch1')
+    if(this.switchedassignedtowatermotor == 'switch1')
     {
       dataoset = {actions:[{switch1: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch2')
+    if(this.switchedassignedtowatermotor == 'switch2')
     {
       dataoset = {actions:[{switch2: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch3')
+    if(this.switchedassignedtowatermotor == 'switch3')
     {
       dataoset = {actions:[{switch3: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch4')
+    if(this.switchedassignedtowatermotor == 'switch4')
     {
       dataoset = {actions:[{switch4: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch5')
+    if(this.switchedassignedtowatermotor == 'switch5')
     {
       dataoset = {actions:[{switch5: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch6')
+    if(this.switchedassignedtowatermotor == 'switch6')
     {
       dataoset = {actions:[{switch6: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch7')
+    if(this.switchedassignedtowatermotor == 'switch7')
     {
       dataoset = {actions:[{switch7: "OFF"}]};
     }
 
-    if(this.switchedassignedtophone == 'switch8')
+    if(this.switchedassignedtowatermotor == 'switch8')
     {
       dataoset = {actions:[{switch8: "OFF"}]};
     }

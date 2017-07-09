@@ -8,7 +8,6 @@ import { Storage } from '@ionic/storage';
 import { AboutPage } from '../pages/about/about';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
-import { MapPage } from '../pages/map/map';
 import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TutorialPage } from '../pages/tutorial/tutorial';
@@ -17,6 +16,10 @@ import { SpeakerListPage } from '../pages/speaker-list/speaker-list';
 import { SupportPage } from '../pages/support/support';
 import { EditinfoPage } from '../pages/editinfo/editinfo';
 import { PhonePage } from '../pages/phone/phone';
+import { LaptopPage } from '../pages/laptop/laptop';
+import { WatermotorPage } from '../pages/watermotor/watermotor';
+import { AlarmPage } from '../pages/alarm/alarm';
+
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
@@ -51,20 +54,19 @@ export class ConferenceApp {
   appPages: PageInterface[] = [
     { title: 'Settings', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'calendar' },
     { title: 'Home', name: 'TabsPage', component: TabsPage, tabComponent: SpeakerListPage, index: 1, icon: 'contacts' },
-    { title: 'Laptop', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map' },
+    { title: 'Laptop', name: 'TabsPage', component: TabsPage, tabComponent: LaptopPage, index: 2, icon: 'map' },
     { title: 'Phone', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
     { title: 'Water Tank', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
     { title: 'Alarm', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' }
   ];
   loggedInPages: PageInterface[] = [
-     { title: 'Settings', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'calendar' },
-    { title: 'Home', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'contacts' },
-    { title: 'Laptop', name: 'TabsPage', component: TabsPage, tabComponent: MapPage, index: 2, icon: 'map' },
-    { title: 'Phone', name: 'TabsPage', component: TabsPage, tabComponent: PhonePage, index: 3, icon: 'information-circle' },
-    { title: 'Water Tank', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
-    { title: 'Alarm', name: 'TabsPage', component: TabsPage, tabComponent: AboutPage, index: 3, icon: 'information-circle' },
-    { title: 'Edit', name: 'EditinfoPage', component: TabsPage, tabComponent: EditinfoPage, icon: 'information-circle' },
     
+    { title: 'Home', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'contacts' },
+    { title: 'Laptop', name: 'TabsPage', component: TabsPage, tabComponent: LaptopPage, index: 1, icon: 'map' },
+    { title: 'Phone', name: 'TabsPage', component: TabsPage, tabComponent: PhonePage, index: 3, icon: 'information-circle' },
+    { title: 'Water Motor', name: 'TabsPage', component: TabsPage, tabComponent: WatermotorPage, index: 2, icon: 'information-circle' },
+    { title: 'Edit', name: 'EditinfoPage', component: TabsPage, tabComponent: EditinfoPage, icon: 'information-circle' },
+    { title: 'Alarm', name: 'AlarmPage', component: AlarmPage, icon: 'person' },   
     { title: 'Account', name: 'AccountPage', component: AccountPage, icon: 'person' },
     { title: 'Support', name: 'SupportPage', component: SupportPage, icon: 'help' },
     { title: 'Logout', name: 'TabsPage', component: TabsPage, icon: 'log-out', logsOut: true }

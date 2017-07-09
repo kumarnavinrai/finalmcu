@@ -90,19 +90,18 @@ export class ConferenceData {
             let differencetosetalarmfromnow: any = usersetalarmdatemiliseconds - indiatimeinmiliseconds;
             let phonetime:any = new Date();
            
-
             let phonetimeinmiliseconds: any = phonetime.getTime();
             let finaltimetosetalarm: any = phonetimeinmiliseconds + differencetosetalarmfromnow;
-
-            
 
             let idforalarm:any = Math.floor(Math.random() * 200);
          
             let pointer: any = this;
 
-                        
+                   
 
                                data.dataoset.timestamp = new Date(finaltimetosetalarm);
+
+                            
 
                               //schedule notification new
                               pointer.localNotifications.schedule({

@@ -3,7 +3,7 @@
 		<button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-		<ion-title>Phone Charging</ion-title>
+		<ion-title>Water Motor</ion-title>
 	</ion-navbar>
 </ion-header>
 
@@ -14,8 +14,8 @@
 		    	<h2>{{msg}}</h2>
 		    </ion-item>
 			<ion-item>
-				<ion-label stacked color="primary">Switch assigned to phone</ion-label>
-				<ion-select [(ngModel)]="switchedassignedtophone">
+				<ion-label stacked color="primary">Switch assigned to water motor</ion-label>
+				<ion-select [(ngModel)]="switchedassignedtowatermotor">
 			        <ion-option value="0">Select switch</ion-option>
 			        <ion-option value="switch1">{{switchonetext}}</ion-option>
 			        <ion-option value="switch2">{{switchtwotext}}</ion-option>
@@ -29,15 +29,15 @@
     
 			</ion-item>
 			<ion-item>
-				<button ion-button (click)="saveSwitchSelection()" type="button" block>Save Phone Switch</button>
+				<button ion-button (click)="saveSwitchSelection()" type="button" block>Save Motor Switch</button>
 			</ion-item>
 			<ion-item *ngIf="switchasgsaved">
-				<ion-label stacked color="primary">How long your phone takes to full change (HH:mm)</ion-label>
+				<ion-label stacked color="primary">How long your water motor takes to fill full tank (HH:mm)</ion-label>
 				<ion-datetime displayFormat="HH:mm" [(ngModel)]="durationoffullcharge">
         		</ion-datetime>
 			</ion-item>
 			<ion-item *ngIf="switchasgsaved">
-				<ion-label stacked color="primary">% of charging in phone now</ion-label>
+				<ion-label stacked color="primary">% of tank filled now</ion-label>
 				<ion-range min="0" max="100" pin="true" debounce="500" [(ngModel)]="percentageofchargingpresent" color="secondary">
 				    <ion-label range-left>0%</ion-label>
 				    <ion-label range-right>100%</ion-label>
@@ -45,13 +45,13 @@
 				
 			</ion-item>
 			<ion-item *ngIf="switchasgsaved">
-				<button ion-button (click)="onStartCharging()" type="button" block>Set  Charging Timer</button>
+				<button ion-button (click)="onStartCharging()" type="button" block>Set Motor Timer</button>
 			</ion-item>
 			<ion-item *ngIf="switchasgsaved">
-				<button ion-button (click)="onStopCharging()" type="button" block>Stop Charging</button>
+				<button ion-button (click)="onStopCharging()" type="button" block>Stop Motor</button>
 			</ion-item>
 			<ion-item *ngIf="switchasgsaved">
-				<button ion-button (click)="onStartChargingManual()" type="button" block>Start Charging Manual</button>
+				<button ion-button (click)="onStartChargingManual()" type="button" block>Start Motor Manual</button>
 			</ion-item>
 				
 		</ion-list>
