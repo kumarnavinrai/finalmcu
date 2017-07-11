@@ -130,12 +130,10 @@ export class ConferenceData {
   getAlarm()
   {
     return Observable.create( (observer: any) => {
+   
           this.localNotifications.getAll().then((notifications: any) => {
    
-             alert(JSON.stringify(notifications));
-             alert(notifications[0].at);
-
-             let res = { resposerecieved: 'false', errordescription: 'error' };
+             let res = { resposerecieved: 'true', data: notifications };
              observer.next(res);
              observer.complete();
 

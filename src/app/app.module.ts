@@ -31,6 +31,7 @@ import { WatermotorPage } from '../pages/watermotor/watermotor';
 import { AlarmPage } from '../pages/alarm/alarm';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { FilePath } from '@ionic-native/file-path';
+import { NativeAudio } from '@ionic-native/native-audio';
 
 
 
@@ -119,6 +120,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     ConferenceData,
     UserData,
     LocalNotifications,
+    NativeAudio,
     Autostart,
     BackgroundMode,
     FilePath,

@@ -26,8 +26,11 @@ import { UserData } from '../providers/user-data';
 
 import { Autostart } from '@ionic-native/autostart';
 import { BackgroundMode } from '@ionic-native/background-mode';
+import { NativeAudio } from '@ionic-native/native-audio';
+
 
 declare var cordova:any;
+declare var Media:any;
 
 export interface PageInterface {
   title: string;
@@ -79,6 +82,7 @@ export class ConferenceApp {
   rootPage: any;
   userloggedinornot: boolean = false;
   alert: any;
+  my_media: any;
 
   constructor(
     public events: Events,
@@ -91,6 +95,7 @@ export class ConferenceApp {
     private alertCtrl: AlertController,
     private backgroundMode: BackgroundMode,
     private autostart: Autostart,
+    private nativeAudio: NativeAudio,
     public splashScreen: SplashScreen
   ) {
     
@@ -361,7 +366,32 @@ export class ConferenceApp {
                   check.offSwitch(8);
                 }
             }
+            
+            //code for alarm
+            if(obj.hasOwnProperty('tune'))
+            {
+              
+              /*check.nativeAudio.preloadComplex('uniqueId1', obj.tunepath, 1, 1, 0).then(function(msg: any){
+                alert(msg);
+              }, function(msg: any){
+                alert( 'error: ' + msg );
+              });*/
 
+              check.playAudio(obj.tunepath);
+            
+            
+              if(obj.actions.length > 1)
+              {
+                for(let i=1;i<obj.actions.length;i++)
+                {
+                  simpledata = obj.actions[i];  
+                  check.alaramFlow(simpledata);
+                  
+
+                }
+              }
+              //
+            }  
 
             
         });
@@ -382,6 +412,155 @@ export class ConferenceApp {
       });
 
     });//platform ready ends here
+  }
+
+  playAudio(url: any) {
+ 
+      // Play the audio file at url
+      this.my_media = new Media(url,
+          // success callback
+          function () { alert("playAudio():Audio Success"); },
+          // error callback
+          function (err: any) { alert("playAudio():Audio Error: " + err); }
+      );
+
+     
+      // Play audio
+      this.my_media.play();
+      let check: any = this;
+      // Pause after 10 min
+      setTimeout(function () {
+          check.my_media.pause();
+      }, 600000);
+  }
+
+  stopAlarmTune()
+  {
+    if(this.my_media != undefined)
+    {
+      this.my_media.stop();
+      this.my_media.release();
+      this.my_media = undefined;
+    }
+  }
+
+  onSuccess()
+  {
+    alert("playing");
+    this.nativeAudio.play('uniqueId1', () => alert('uniqueId1 is done playing'));
+  }
+
+  onError()
+  {
+    alert("alarm tune error");
+  }
+
+  alaramFlow(simpledata: any)
+  {   
+              let check: any = this; 
+              if(simpledata.hasOwnProperty('switch1')){
+                
+                if(simpledata.switch1 == 'ON')
+                {
+                  check.onSwitch(1);
+                }
+
+                if(simpledata.switch1 == 'OFF')
+                {
+                  check.offSwitch(1);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch2')){
+                
+                if(simpledata.switch2 == 'ON')
+                { 
+                  check.onSwitch(2);
+                }
+
+                if(simpledata.switch2 == 'OFF')
+                {
+                  check.offSwitch(2);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch3')){
+                
+                if(simpledata.switch3 == 'ON')
+                {
+                  check.onSwitch(3);
+                }
+
+                if(simpledata.switch3 == 'OFF')
+                {
+                  check.offSwitch(3);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch4')){
+                
+                if(simpledata.switch4 == 'ON')
+                {
+                  check.onSwitch(4);
+                }
+
+                if(simpledata.switch4 == 'OFF')
+                {
+                  check.offSwitch(4);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch5')){
+                
+                if(simpledata.switch5 == 'ON')
+                {
+                  check.onSwitch(5);
+                }
+
+                if(simpledata.switch5 == 'OFF')
+                {
+                  check.offSwitch(5);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch6')){
+                
+                if(simpledata.switch6 == 'ON')
+                {
+                  check.onSwitch(6);
+                }
+
+                if(simpledata.switch6 == 'OFF')
+                {
+                  check.offSwitch(6);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch7')){
+                
+                if(simpledata.switch7 == 'ON')
+                {
+                  check.onSwitch(7);
+                }
+
+                if(simpledata.switch7 == 'OFF')
+                {
+                  check.offSwitch(7);
+                }
+            }
+
+            if(simpledata.hasOwnProperty('switch8')){
+               
+                if(simpledata.switch8 == 'ON')
+                {
+                  check.onSwitch(8);
+                }
+
+                if(simpledata.switch8 == 'OFF')
+                {
+                  check.offSwitch(8);
+                }
+            }
   }
 
   onSwitch(data: any)

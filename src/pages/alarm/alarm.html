@@ -3,7 +3,7 @@
 		<button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-		<ion-title>Alarm</ion-title>
+		<ion-title (click)="saveAlarm()">Alarm</ion-title>
 	</ion-navbar>
 </ion-header>
 
@@ -17,6 +17,32 @@
 			</ion-item>
 				
 		</ion-list>
+		<!-- list alarms start -->
+		<span *ngIf="showalarmlist">	
+			<ion-list  *ngFor="let data of alarmnotification">	
+				
+					<ion-item *ngIf="thisNotificationIsAlarm(data.data)">
+						<ion-label stacked color="primary">{{data.text}}</ion-label>
+						
+					</ion-item>
+					<ion-item *ngIf="thisNotificationIsAlarm(data.data)">
+						
+						<ion-label class="messagealarm">{{showListAlarmData(data.data)}}{{anyalarmset(true)}}</ion-label>
+						
+					</ion-item>
+					<ion-item *ngIf="thisNotificationIsAlarm(data.data)">
+						
+						<button ion-button (click)="deleteAlarm(data.id)" type="button" >Delete</button>
+					</ion-item>
+					
+			</ion-list>
+			<ion-list  *ngIf="!isanyalarmset">	
+					<ion-item>
+						<ion-label stacked color="primary">No alarm set.</ion-label>
+					</ion-item>
+			</ion-list>
+		</span>	
+		<!-- list alarms ends -->
 		<!-- Step 1 start -->
 		<ion-list no-lines *ngIf="step1">
 		    <ion-item *ngIf="msg!=''">
@@ -196,11 +222,12 @@
 		<!-- Step 4 start -->
 		<ion-list *ngIf="step4">	
 			<ion-item>
-				<ion-label color="primary">Set Alarm Tune</ion-label>
+				<ion-label color="primary">Set Alarm Tune (Last tune selected is: {{lasttunefilename}})</ion-label>
 			</ion-item>
 			<ion-item>
 				<button ion-button (click)="backfromstep4()" type="button" >Back</button>
 				<button ion-button (click)="pickFile()" type="button" block>Pick File</button>
+				<button ion-button (click)="keepLastFile()" type="button" block>Use last tune selected</button>
 			</ion-item>
 		</ion-list>
 		<!-- Step 4 end -->
@@ -209,16 +236,16 @@
 		<ion-list *ngIf="step5">
 
 			<ion-item *ngFor="let singleswitch of currentswitchesforalarm">
-				<ion-label stacked color="primary">{{singleswitch.m}} will be {{sortSwitchData(singleswitch.s,singleswitch.m)}}</ion-label>
+				<ion-label stacked color="primary">{{singleswitch.m}} will be {{sortSwitchData(singleswitch.s)}}</ion-label>
 					
 			</ion-item>
 			<ion-item >
 				<ion-label stacked color="primary">AT</ion-label>
-				<ion-label stacked color="primary">{{alarmtime}}</ion-label>
+				<ion-label stacked color="primary">{{showalarmtime(alarmtime)}}</ion-label>
 			</ion-item>
 
 			<ion-item >
-				<ion-label stacked color="primary">Tune of alarm is: {{alarmtunepath}}</ion-label>
+				<ion-label stacked color="primary">Tune of alarm is: {{lasttunefilename}}</ion-label>
 			</ion-item>
 			
 			
