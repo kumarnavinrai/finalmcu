@@ -419,7 +419,7 @@ export class ConferenceApp {
       // Play the audio file at url
       this.my_media = new Media(url,
           // success callback
-          function () { alert("playAudio():Audio Success"); },
+          function () { console.log("playAudio():Audio Success"); },
           // error callback
           function (err: any) { alert("playAudio():Audio Error: " + err); }
       );

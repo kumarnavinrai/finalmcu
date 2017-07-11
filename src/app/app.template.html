@@ -74,23 +74,16 @@
           {{p.title}}
         </button>
 
-        <button *ngIf="my_media != undefined" ion-item menuClose  (click)="stopAlarmTune()">
-          <ion-icon ios="ios-stopwatch" md="md-stopwatch" ></ion-icon>
-          Stop Alarm
-        </button>
-
         
       </ion-list>
 
-     <!-- <ion-list>
-        <ion-list-header>
-          Tutorial
-        </ion-list-header>
-        <button ion-item menuClose (click)="openTutorial()">
+     <ion-list *ngIf="my_media != undefined">
+        
+        <button ion-item menuClose (click)="stopAlarmTune()">
           <ion-icon item-start name="hammer"></ion-icon>
-          Show Tutorial
+          Stop Alarm
         </button>
-      </ion-list> -->
+      </ion-list>
 
     </ion-content>
 
