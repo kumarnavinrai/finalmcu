@@ -5,7 +5,7 @@ import { PhoneOptions } from '../../interfaces/user-options';
 import { Storage } from '@ionic/storage';
 
 import { ConferenceData } from '../../providers/conference-data';
-
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 @Component({
@@ -30,8 +30,10 @@ export class PhonePage {
   percentageofchargingpresent: any = 10;
   msg: any = '';
   switchasgsaved: boolean = false;
+  idofphonetimer: any;
+  isphonetimerset: boolean = false;
   
-  constructor(public navCtrl: NavController, public userData: UserData, public storage: Storage, public alertCtrl: AlertController, public confData: ConferenceData,) 
+  constructor(public navCtrl: NavController, public userData: UserData, public storage: Storage, public alertCtrl: AlertController, public confData: ConferenceData, private localNotifications: LocalNotifications) 
   {
     this.switchedassignedtophone = 0;
 
@@ -42,6 +44,12 @@ export class PhonePage {
   saveSwitchSelection()
   {
     
+
+    if(this.switchedassignedtophone == 0)
+    {
+      this.showAlertSwitchCheck();
+      return true;
+    }
     this.showAlert();
   }
 
@@ -61,7 +69,11 @@ export class PhonePage {
             text: 'Ok',
             handler: () => {
               this.switchasgsaved = true;
+             
+            
+
               this.storage.set('switchedassignedtophone',this.switchedassignedtophone);
+              this.storage.set('timetakenbyphonetofullcharge',this.durationoffullcharge);
               this.msg = 'Switch settings saved successfully!';
             }
           }
@@ -80,12 +92,7 @@ export class PhonePage {
         title: 'Success',
         message: 'Phone is charging now!',
         buttons: [
-          {
-            text: 'Cancel',
-            handler: () => {
-              
-            }
-          },
+          
           {
             text: 'Ok',
             handler: () => {
@@ -185,13 +192,47 @@ export class PhonePage {
           }
       });
 
+      this.storage.get('timetakenbyphonetofullcharge').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.durationoffullcharge = value;
+          }
+      });
+
+      
+
       
   }
 
+  showAlertSwitchCheck() 
+  {
+      let alert: any = this.alertCtrl.create({
+        title: 'Success',
+        message: 'Please select a switch for phone!',
+        buttons: [
+          
+          {
+            text: 'Ok',
+            handler: () => {
+              
+            }
+          }
+        ]
+      });
 
+      
+        alert.present();
+      
+  }
 
   onStartCharging() {
   
+      if(this.switchedassignedtophone == 0)
+      {
+        this.showAlertSwitchCheck();
+        return true;
+      }
+
       let datetime: any = this.durationoffullcharge;
       let tempdatetimeformsg: any = datetime.replace("T", " ");
       tempdatetimeformsg = tempdatetimeformsg.slice(0, -5);
@@ -225,10 +266,87 @@ export class PhonePage {
       
       let datatosend = { usersetdatetime: datetimetemp, title: 'Smart Automation' , desciption: 'Phone Recharged' , soundfile: alaramtune, dataoset: this.getDataForNotification() };
 
+      let check: any = this;
       this.confData.setAlarm(datatosend).subscribe((data: any) => {
           this.showAlertSuccess();
+          this.onSwitch(this.getKeyForSwitch());
+
+          setTimeout(function(){
+             check.listAlarm();
+          }, 2000);
+         
           console.log(data);
       });
+  }
+
+  onUnsetPhoneTimer(idofphonetimer: any)
+  {
+      this.localNotifications.clear(idofphonetimer).then(() => {
+                      
+      });
+
+      this.localNotifications.cancel(idofphonetimer).then(() => {
+          this.idofphonetimer = 0;
+          this.isphonetimerset = false;
+      });
+  }
+
+  showConfirm(idofphonetimer: any) 
+  {
+      let alert: any = this.alertCtrl.create({
+        title: 'Confirm',
+        message: 'Do you want to unset phone timer!',
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: () => {
+              
+            }
+          },
+          {
+            text: 'Ok',
+            handler: () => {
+              this.onUnsetPhoneTimer(idofphonetimer);
+            }
+          }
+        ]
+      });
+
+      
+        alert.present();
+      
+  }
+
+  listAlarm()
+  {
+   
+    this.confData.getAlarm().subscribe((data: any) => {
+            console.log(data);
+            
+            let obj: any = data.data;
+            let singlenotification: any;
+            let simpledata: any;
+
+            if(obj.length > 0)
+            {
+              for(let i=0;i<obj.length;i++)
+              {
+                singlenotification = obj[i];
+                simpledata = JSON.parse(singlenotification.data);
+               
+                if(simpledata.hasOwnProperty('phone'))
+                {
+                  //means phone timer set
+                  this.idofphonetimer = singlenotification.id;
+                 
+                  this.isphonetimerset = true;
+                }
+              }
+            }
+            
+
+          
+    }); 
   }
 
   getFormattedDate(finaldatetimetosetnotification: any)
@@ -330,42 +448,42 @@ export class PhonePage {
     
     if(this.switchedassignedtophone == 'switch1')
     {
-      dataoset = {actions:[{switch1: "OFF"}]};
+      dataoset = {actions:[{switch1: "OFF"}], phone:'yes'};
     }
 
     if(this.switchedassignedtophone == 'switch2')
     {
-      dataoset = {actions:[{switch2: "OFF"}]};
+      dataoset = {actions:[{switch2: "OFF"}], phone:'yes'};
     }
 
     if(this.switchedassignedtophone == 'switch3')
     {
-      dataoset = {actions:[{switch3: "OFF"}]};
+      dataoset = {actions:[{switch3: "OFF"}], phone:'yes'};
     }
 
     if(this.switchedassignedtophone == 'switch4')
     {
-      dataoset = {actions:[{switch4: "OFF"}]};
+      dataoset = {actions:[{switch4: "OFF"}], phone:'yes'};
     }
 
     if(this.switchedassignedtophone == 'switch5')
     {
-      dataoset = {actions:[{switch5: "OFF"}]};
+      dataoset = {actions:[{switch5: "OFF"}], phone:'yes'};
     }
 
     if(this.switchedassignedtophone == 'switch6')
     {
-      dataoset = {actions:[{switch6: "OFF"}]};
+      dataoset = {actions:[{switch6: "OFF"}], phone:'yes'};
     }
 
     if(this.switchedassignedtophone == 'switch7')
     {
-      dataoset = {actions:[{switch7: "OFF"}]};
+      dataoset = {actions:[{switch7: "OFF"}], phone:'yes'};
     }
 
     if(this.switchedassignedtophone == 'switch8')
     {
-      dataoset = {actions:[{switch8: "OFF"}]};
+      dataoset = {actions:[{switch8: "OFF"}], phone:'yes'};
     }
 
     return dataoset;

@@ -29,13 +29,14 @@
     
 			</ion-item>
 			<ion-item>
-				<button ion-button (click)="saveSwitchSelection()" type="button" block>Save Phone Switch</button>
-			</ion-item>
-			<ion-item *ngIf="switchasgsaved">
 				<ion-label stacked color="primary">How long your phone takes to full change (HH:mm)</ion-label>
 				<ion-datetime displayFormat="HH:mm" [(ngModel)]="durationoffullcharge">
         		</ion-datetime>
 			</ion-item>
+			<ion-item>
+				<button ion-button (click)="saveSwitchSelection()" type="button" block>Save Phone Settings</button>
+			</ion-item>
+			
 			<ion-item *ngIf="switchasgsaved">
 				<ion-label stacked color="primary">% of charging in phone now</ion-label>
 				<ion-range min="0" max="100" pin="true" debounce="500" [(ngModel)]="percentageofchargingpresent" color="secondary">
@@ -44,13 +45,16 @@
 				</ion-range>
 				
 			</ion-item>
-			<ion-item *ngIf="switchasgsaved">
-				<button ion-button (click)="onStartCharging()" type="button" block>Set  Charging Timer</button>
+			<ion-item *ngIf="switchasgsaved && !isphonetimerset">
+				<button ion-button (click)="onStartCharging()" type="button" block>Start  Charging Timer</button>
+			</ion-item>
+			<ion-item *ngIf="isphonetimerset">
+				<button ion-button (click)="showConfirm(idofphonetimer)" type="button" block>Unset Phone Timer</button>
 			</ion-item>
 			<ion-item *ngIf="switchasgsaved">
 				<button ion-button (click)="onStopCharging()" type="button" block>Stop Charging</button>
 			</ion-item>
-			<ion-item *ngIf="switchasgsaved">
+			<ion-item *ngIf="switchasgsaved && !isphonetimerset">
 				<button ion-button (click)="onStartChargingManual()" type="button" block>Start Charging Manual</button>
 			</ion-item>
 				

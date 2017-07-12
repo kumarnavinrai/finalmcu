@@ -5,7 +5,7 @@ import { PhoneOptions } from '../../interfaces/user-options';
 import { Storage } from '@ionic/storage';
 
 import { ConferenceData } from '../../providers/conference-data';
-
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 @Component({
@@ -30,8 +30,11 @@ export class WatermotorPage {
   percentageofchargingpresent: any = 10;
   msg: any = '';
   switchasgsaved: boolean = false;
+  idofwatermotortimer: any;
+  iswatermotortimerset: boolean = false;
+
   
-  constructor(public navCtrl: NavController, public userData: UserData, public storage: Storage, public alertCtrl: AlertController, public confData: ConferenceData,) 
+  constructor(public navCtrl: NavController, public userData: UserData, public storage: Storage, public alertCtrl: AlertController, public confData: ConferenceData, private localNotifications: LocalNotifications) 
   {
     this.switchedassignedtowatermotor = 0;
 
@@ -41,6 +44,11 @@ export class WatermotorPage {
 
   saveSwitchSelection()
   {
+    if(this.switchedassignedtowatermotor == 0)
+    {
+      this.showAlertSwitchCheck();
+      return true;
+    }
     
     this.showAlert();
   }
@@ -62,6 +70,7 @@ export class WatermotorPage {
             handler: () => {
               this.switchasgsaved = true;
               this.storage.set('switchedassignedtowatermotor',this.switchedassignedtowatermotor);
+              this.storage.set('timetakenbywatermotortofullcharge',this.durationoffullcharge);
               this.msg = 'Switch settings saved successfully!';
             }
           }
@@ -78,14 +87,9 @@ export class WatermotorPage {
   {
       let alert: any = this.alertCtrl.create({
         title: 'Success',
-        message: 'Laptop is charging now!',
+        message: 'Water Motor is running now!',
         buttons: [
-          {
-            text: 'Cancel',
-            handler: () => {
-              
-            }
-          },
+          
           {
             text: 'Ok',
             handler: () => {
@@ -185,12 +189,47 @@ export class WatermotorPage {
           }
       });
 
+      this.storage.get('timetakenbywatermotortofullcharge').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.durationoffullcharge = value;
+          }
+      });
+
+      
+  }
+
+  showAlertSwitchCheck() 
+  {
+      let alert: any = this.alertCtrl.create({
+        title: 'Success',
+        message: 'Please select a switch for water motor!',
+        buttons: [
+          
+          {
+            text: 'Ok',
+            handler: () => {
+              
+            }
+          }
+        ]
+      });
+
+      
+        alert.present();
       
   }
 
 
 
+
   onStartCharging() {
+
+      if(this.switchedassignedtowatermotor == 0)
+      {
+        this.showAlertSwitchCheck();
+        return true;
+      }
   
       let datetime: any = this.durationoffullcharge;
       let tempdatetimeformsg: any = datetime.replace("T", " ");
@@ -223,13 +262,91 @@ export class WatermotorPage {
       
       let alaramtune:any = 'file:///storage/sdcard0/navin/alarm.mp3';
       
-      let datatosend = { usersetdatetime: datetimetemp, title: 'Smart Automation' , desciption: 'Phone Recharged' , soundfile: alaramtune, dataoset: this.getDataForNotification() };
+      let datatosend = { usersetdatetime: datetimetemp, title: 'Smart Automation' , desciption: 'Water Tank Filled ' , soundfile: alaramtune, dataoset: this.getDataForNotification() };
 
+      let check: any = this;
       this.confData.setAlarm(datatosend).subscribe((data: any) => {
           this.showAlertSuccess();
+          this.onSwitch(this.getKeyForSwitch());
+
+          setTimeout(function(){
+             check.listAlarm();
+          }, 2000);
+
           console.log(data);
       });
   }
+
+  onUnsetWaterMotorTimer(idofwatermotortimer: any)
+  {
+      this.localNotifications.clear(idofwatermotortimer).then(() => {
+                      
+      });
+
+      this.localNotifications.cancel(idofwatermotortimer).then(() => {
+          this.idofwatermotortimer = 0;
+          this.iswatermotortimerset = false;
+      });
+  }
+
+  showConfirm(idofwatermotortimer: any) 
+  {
+      let alert: any = this.alertCtrl.create({
+        title: 'Confirm',
+        message: 'Do you want to unset water motor timer!',
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: () => {
+              
+            }
+          },
+          {
+            text: 'Ok',
+            handler: () => {
+              this.onUnsetWaterMotorTimer(idofwatermotortimer);
+            }
+          }
+        ]
+      });
+
+      
+        alert.present();
+      
+  }
+
+  listAlarm()
+  {
+   
+    this.confData.getAlarm().subscribe((data: any) => {
+            console.log(data);
+            
+            let obj: any = data.data;
+            let singlenotification: any;
+            let simpledata: any;
+
+            if(obj.length > 0)
+            {
+              for(let i=0;i<obj.length;i++)
+              {
+                singlenotification = obj[i];
+                simpledata = JSON.parse(singlenotification.data);
+               
+                if(simpledata.hasOwnProperty('watermotor'))
+                {
+                  //means watermotor timer set
+                  this.idofwatermotortimer = singlenotification.id;
+                 
+                  this.iswatermotortimerset = true;
+                }
+              }
+            }
+            
+
+          
+    }); 
+  }
+
 
   getFormattedDate(finaldatetimetosetnotification: any)
   {
@@ -330,42 +447,42 @@ export class WatermotorPage {
     
     if(this.switchedassignedtowatermotor == 'switch1')
     {
-      dataoset = {actions:[{switch1: "OFF"}]};
+      dataoset = {actions:[{switch1: "OFF"}], watermotor:'yes'};
     }
 
     if(this.switchedassignedtowatermotor == 'switch2')
     {
-      dataoset = {actions:[{switch2: "OFF"}]};
+      dataoset = {actions:[{switch2: "OFF"}], watermotor:'yes'};
     }
 
     if(this.switchedassignedtowatermotor == 'switch3')
     {
-      dataoset = {actions:[{switch3: "OFF"}]};
+      dataoset = {actions:[{switch3: "OFF"}], watermotor:'yes'};
     }
 
     if(this.switchedassignedtowatermotor == 'switch4')
     {
-      dataoset = {actions:[{switch4: "OFF"}]};
+      dataoset = {actions:[{switch4: "OFF"}], watermotor:'yes'};
     }
 
     if(this.switchedassignedtowatermotor == 'switch5')
     {
-      dataoset = {actions:[{switch5: "OFF"}]};
+      dataoset = {actions:[{switch5: "OFF"}], watermotor:'yes'};
     }
 
     if(this.switchedassignedtowatermotor == 'switch6')
     {
-      dataoset = {actions:[{switch6: "OFF"}]};
+      dataoset = {actions:[{switch6: "OFF"}], watermotor:'yes'};
     }
 
     if(this.switchedassignedtowatermotor == 'switch7')
     {
-      dataoset = {actions:[{switch7: "OFF"}]};
+      dataoset = {actions:[{switch7: "OFF"}], watermotor:'yes'};
     }
 
     if(this.switchedassignedtowatermotor == 'switch8')
     {
-      dataoset = {actions:[{switch8: "OFF"}]};
+      dataoset = {actions:[{switch8: "OFF"}], watermotor:'yes'};
     }
 
     return dataoset;

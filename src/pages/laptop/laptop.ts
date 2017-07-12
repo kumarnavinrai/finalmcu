@@ -5,7 +5,7 @@ import { PhoneOptions } from '../../interfaces/user-options';
 import { Storage } from '@ionic/storage';
 
 import { ConferenceData } from '../../providers/conference-data';
-
+import { LocalNotifications } from '@ionic-native/local-notifications';
 
 
 @Component({
@@ -30,8 +30,10 @@ export class LaptopPage {
   percentageofchargingpresent: any = 10;
   msg: any = '';
   switchasgsaved: boolean = false;
+  idoflaptoptimer: any;
+  islaptoptimerset: boolean = false;
   
-  constructor(public navCtrl: NavController, public userData: UserData, public storage: Storage, public alertCtrl: AlertController, public confData: ConferenceData,) 
+  constructor(public navCtrl: NavController, public userData: UserData, public storage: Storage, public alertCtrl: AlertController, public confData: ConferenceData, private localNotifications: LocalNotifications) 
   {
     this.switchedassignedtolaptop = 0;
 
@@ -41,6 +43,11 @@ export class LaptopPage {
 
   saveSwitchSelection()
   {
+    if(this.switchedassignedtolaptop == 0)
+    {
+      this.showAlertSwitchCheck();
+      return true;
+    }
     
     this.showAlert();
   }
@@ -62,7 +69,7 @@ export class LaptopPage {
             handler: () => {
               this.switchasgsaved = true;
               this.storage.set('switchedassignedtolaptop',this.switchedassignedtolaptop);
-              this.msg = 'Switch settings saved successfully!';
+              this.storage.set('timetakenbylaptoptofullcharge',this.durationoffullcharge); this.msg = 'Switch settings saved successfully!';
             }
           }
         ]
@@ -80,12 +87,7 @@ export class LaptopPage {
         title: 'Success',
         message: 'Laptop is charging now!',
         buttons: [
-          {
-            text: 'Cancel',
-            handler: () => {
-              
-            }
-          },
+          
           {
             text: 'Ok',
             handler: () => {
@@ -185,12 +187,45 @@ export class LaptopPage {
           }
       });
 
+      this.storage.get('timetakenbylaptoptofullcharge').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.durationoffullcharge = value;
+          }
+      });
+
+      
+  }
+
+  showAlertSwitchCheck() 
+  {
+      let alert: any = this.alertCtrl.create({
+        title: 'Success',
+        message: 'Please select a switch for laptop!',
+        buttons: [
+          
+          {
+            text: 'Ok',
+            handler: () => {
+              
+            }
+          }
+        ]
+      });
+
+      
+        alert.present();
       
   }
 
 
-
   onStartCharging() {
+
+      if(this.switchedassignedtolaptop == 0)
+      {
+        this.showAlertSwitchCheck();
+        return true;
+      }
   
       let datetime: any = this.durationoffullcharge;
       let tempdatetimeformsg: any = datetime.replace("T", " ");
@@ -223,12 +258,86 @@ export class LaptopPage {
       
       let alaramtune:any = 'file:///storage/sdcard0/navin/alarm.mp3';
       
-      let datatosend = { usersetdatetime: datetimetemp, title: 'Smart Automation' , desciption: 'Phone Recharged' , soundfile: alaramtune, dataoset: this.getDataForNotification() };
+      let datatosend = { usersetdatetime: datetimetemp, title: 'Smart Automation' , desciption: 'Laptop Recharged' , soundfile: alaramtune, dataoset: this.getDataForNotification() };
 
+      let check: any = this;
       this.confData.setAlarm(datatosend).subscribe((data: any) => {
           this.showAlertSuccess();
           console.log(data);
+          this.onSwitch(this.getKeyForSwitch());
+
+          setTimeout(function(){
+             check.listAlarm();
+          }, 2000);
       });
+  }
+
+  onUnsetLaptopTimer(idoflaptoptimer: any)
+  {
+      this.localNotifications.clear(idoflaptoptimer).then(() => {
+                      
+      });
+
+      this.localNotifications.cancel(idoflaptoptimer).then(() => {
+          this.idoflaptoptimer = 0;
+          this.islaptoptimerset = false;
+      });
+  }
+
+  showConfirm(idoflaptoptimer: any) 
+  {
+      let alert: any = this.alertCtrl.create({
+        title: 'Confirm',
+        message: 'Do you want to unset laptop timer!',
+        buttons: [
+          {
+            text: 'Cancel',
+            handler: () => {
+              
+            }
+          },
+          {
+            text: 'Ok',
+            handler: () => {
+              this.onUnsetLaptopTimer(idoflaptoptimer);
+            }
+          }
+        ]
+      });
+
+      
+        alert.present();
+      
+  }
+
+  listAlarm()
+  {
+   
+    this.confData.getAlarm().subscribe((data: any) => {
+            console.log(data);
+            
+            let obj: any = data.data;
+            let singlenotification: any;
+            let simpledata: any;
+
+            if(obj.length > 0)
+            {
+              for(let i=0;i<obj.length;i++)
+              {
+                singlenotification = obj[i];
+                simpledata = JSON.parse(singlenotification.data);
+               
+                if(simpledata.hasOwnProperty('laptop'))
+                {
+                  //means laptop timer set
+                  this.idoflaptoptimer = singlenotification.id;
+                 
+                  this.islaptoptimerset = true;
+                }
+              }
+            }
+        
+    }); 
   }
 
   getFormattedDate(finaldatetimetosetnotification: any)
@@ -330,42 +439,42 @@ export class LaptopPage {
     
     if(this.switchedassignedtolaptop == 'switch1')
     {
-      dataoset = {actions:[{switch1: "OFF"}]};
+      dataoset = {actions:[{switch1: "OFF"}], laptop:'yes'};
     }
 
     if(this.switchedassignedtolaptop == 'switch2')
     {
-      dataoset = {actions:[{switch2: "OFF"}]};
+      dataoset = {actions:[{switch2: "OFF"}], laptop:'yes'};
     }
 
     if(this.switchedassignedtolaptop == 'switch3')
     {
-      dataoset = {actions:[{switch3: "OFF"}]};
+      dataoset = {actions:[{switch3: "OFF"}], laptop:'yes'};
     }
 
     if(this.switchedassignedtolaptop == 'switch4')
     {
-      dataoset = {actions:[{switch4: "OFF"}]};
+      dataoset = {actions:[{switch4: "OFF"}], laptop:'yes'};
     }
 
     if(this.switchedassignedtolaptop == 'switch5')
     {
-      dataoset = {actions:[{switch5: "OFF"}]};
+      dataoset = {actions:[{switch5: "OFF"}], laptop:'yes'};
     }
 
     if(this.switchedassignedtolaptop == 'switch6')
     {
-      dataoset = {actions:[{switch6: "OFF"}]};
+      dataoset = {actions:[{switch6: "OFF"}], laptop:'yes'};
     }
 
     if(this.switchedassignedtolaptop == 'switch7')
     {
-      dataoset = {actions:[{switch7: "OFF"}]};
+      dataoset = {actions:[{switch7: "OFF"}], laptop:'yes'};
     }
 
     if(this.switchedassignedtolaptop == 'switch8')
     {
-      dataoset = {actions:[{switch8: "OFF"}]};
+      dataoset = {actions:[{switch8: "OFF"}], laptop:'yes'};
     }
 
     return dataoset;

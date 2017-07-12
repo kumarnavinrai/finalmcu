@@ -89,6 +89,9 @@ export class SchedulePage {
   switcheighttimernotset: boolean = true;
   switcheightmsg: string = '';
   mintimer: any;
+  switchedassignedtowatermotor: any;
+  switchedassignedtolaptop: any;
+  switchedassignedtophone: any;
 
 
   constructor(
@@ -195,6 +198,37 @@ export class SchedulePage {
             this.switcheighttext = value;
           }
       });
+
+
+      this.storage.get('switchedassignedtowatermotor').then((value) => {
+         console.log(value);
+          if(value != '' && value != null)
+          {
+            this.switchedassignedtowatermotor = value;
+          }  
+          
+      });
+
+
+
+      this.storage.get('switchedassignedtolaptop').then((value) => {
+         console.log(value);
+          if(value != '' && value != null)
+          {
+            this.switchedassignedtolaptop = value;
+          }  
+          
+      });
+
+      this.storage.get('switchedassignedtophone').then((value) => {
+         console.log(value);
+          if(value != '' && value != null)
+          {
+            this.switchedassignedtophone = value;
+          }  
+          
+      });
+
   }
 
   onTimer() {
