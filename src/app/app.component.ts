@@ -421,7 +421,7 @@ export class ConferenceApp {
           // success callback
           function () { console.log("playAudio():Audio Success"); },
           // error callback
-          function (err: any) { alert("playAudio():Audio Error: " + err); }
+          function (err: any) { alert("playAudio():Audio Error: " + JSON.stringify(err)); }
       );
 
      
@@ -429,7 +429,8 @@ export class ConferenceApp {
       this.my_media.play();
       let check: any = this;
       // Pause after 10 min
-
+      
+     
       if(this.my_media.getDuration()>-1)
       {
         let duration_time: any = this.my_media.getDuration() * 1000;
