@@ -4,31 +4,10 @@
       <ion-icon name="menu"></ion-icon>
     </button>
 
-    <ion-title>Welcome to Smart Automation{{switchedassignedtowatermotor}}-{{switchedassignedtolaptop}}-{{switchedassignedtophone}}</ion-title>
+    <ion-title>Welcome to Smart Automation</ion-title>
 
-    <!-- <ion-segment [(ngModel)]="segment" (ionChange)="updateSchedule()">
-      <ion-segment-button value="all">
-        All
-      </ion-segment-button>
-      <ion-segment-button value="favorites">
-        Favorites
-      </ion-segment-button>
-    </ion-segment> -->
-
-    <!-- <ion-buttons end>
-      <button ion-button icon-only (click)="presentFilter()">
-        <ion-icon ios="ios-options-outline" md="md-options"></ion-icon>
-      </button>
-    </ion-buttons> -->
   </ion-navbar>
 
-  <!-- <ion-toolbar no-border-top>
-    <ion-searchbar color="primary"
-                   [(ngModel)]="queryText"
-                   (ionInput)="updateSchedule()"
-                   placeholder="Search">
-    </ion-searchbar>
-  </ion-toolbar> -->
 </ion-header>
 
 <ion-content>
@@ -38,7 +17,7 @@
   
   
 
-  <ion-list class="swtcls">
+  <ion-list class="swtcls" *ngIf="!checkIsThisSwitchHasAssigned('switch1')">
   
      
      <ion-item>
@@ -89,8 +68,17 @@
     
 
   </ion-list>
+   
 
-  <ion-list class="swtcls">
+  <ion-list class="swtcls" *ngIf="checkIsThisSwitchHasAssigned('switch1')">
+    <ion-item>
+      <ion-row responsive-sm>
+        <h3>{{switchonetext}} - {{getThisSwitchHasAssignedMsg('switch1')}}</h3>
+      </ion-row>  
+    </ion-item>
+  </ion-list>        
+
+  <ion-list class="swtcls" *ngIf="!checkIsThisSwitchHasAssigned('switch2')">
      <ion-item>
         <ion-row responsive-sm>
           <h1>{{switchtwotext}}</h1>
@@ -140,8 +128,16 @@
 
   </ion-list>
 
+  <ion-list class="swtcls" *ngIf="checkIsThisSwitchHasAssigned('switch2')">
+    <ion-item>
+      <ion-row responsive-sm>
+        <h3>{{switchtwotext}} - {{getThisSwitchHasAssignedMsg('switch2')}}</h3>
+      </ion-row>  
+    </ion-item>
+  </ion-list>        
 
-  <ion-list class="swtcls">
+
+  <ion-list class="swtcls" *ngIf="!checkIsThisSwitchHasAssigned('switch3')">
      <ion-item>
         <ion-row responsive-sm>
           <h1>{{switchthreetext}}</h1>
@@ -191,8 +187,15 @@
 
   </ion-list>
 
+  <ion-list class="swtcls" *ngIf="checkIsThisSwitchHasAssigned('switch3')">
+    <ion-item>
+      <ion-row responsive-sm>
+        <h3>{{switchthreetext}} - {{getThisSwitchHasAssignedMsg('switch3')}}</h3>
+      </ion-row>  
+    </ion-item>
+  </ion-list> 
 
-  <ion-list class="swtcls">
+  <ion-list class="swtcls" *ngIf="!checkIsThisSwitchHasAssigned('switch4')">
      <ion-item>
         <ion-row responsive-sm>
           <h1>{{switchfourtext}}</h1>
@@ -242,8 +245,15 @@
 
   </ion-list>
 
+  <ion-list class="swtcls" *ngIf="checkIsThisSwitchHasAssigned('switch4')">
+    <ion-item>
+      <ion-row responsive-sm>
+        <h3>{{switchfourtext}} - {{getThisSwitchHasAssignedMsg('switch4')}}</h3>
+      </ion-row>  
+    </ion-item>
+  </ion-list> 
 
-  <ion-list class="swtcls">
+  <ion-list class="swtcls" *ngIf="!checkIsThisSwitchHasAssigned('switch5')">
      <ion-item>
         <ion-row responsive-sm>
           <h1>{{switchfivetext}}</h1>
@@ -293,10 +303,16 @@
 
   </ion-list>
 
-
+  <ion-list class="swtcls" *ngIf="checkIsThisSwitchHasAssigned('switch5')">
+    <ion-item>
+      <ion-row responsive-sm>
+        <h3>{{switchfivetext}} - {{getThisSwitchHasAssignedMsg('switch5')}}</h3>
+      </ion-row>  
+    </ion-item>
+  </ion-list> 
   
 
-  <ion-list class="swtcls">
+  <ion-list class="swtcls" *ngIf="!checkIsThisSwitchHasAssigned('switch6')">
      <ion-item>
         <ion-row responsive-sm>
           <h1>{{switchsixtext}}</h1>
@@ -345,9 +361,15 @@
 
   </ion-list>
 
+  <ion-list class="swtcls" *ngIf="checkIsThisSwitchHasAssigned('switch6')">
+    <ion-item>
+      <ion-row responsive-sm>
+        <h3>{{switchsixtext}} - {{getThisSwitchHasAssignedMsg('switch6')}}</h3>
+      </ion-row>  
+    </ion-item>
+  </ion-list> 
 
-
-  <ion-list class="swtcls">
+  <ion-list class="swtcls" *ngIf="!checkIsThisSwitchHasAssigned('switch7')">
      <ion-item>
         <ion-row responsive-sm>
           <h1>{{switchseventext}}</h1>
@@ -396,8 +418,15 @@
 
   </ion-list>
 
+  <ion-list class="swtcls" *ngIf="checkIsThisSwitchHasAssigned('switch7')">
+    <ion-item>
+      <ion-row responsive-sm>
+        <h3>{{switchseventext}} - {{getThisSwitchHasAssignedMsg('switch7')}}</h3>
+      </ion-row>  
+    </ion-item>
+  </ion-list> 
 
-  <ion-list class="swtcls">
+  <ion-list class="swtcls" *ngIf="!checkIsThisSwitchHasAssigned('switch8')">
      <ion-item>
         <ion-row responsive-sm>
           <h1>{{switcheighttext}}</h1>
@@ -445,5 +474,13 @@
     </ion-item>
 
   </ion-list>
+
+  <ion-list class="swtcls" *ngIf="checkIsThisSwitchHasAssigned('switch8')">
+    <ion-item>
+      <ion-row responsive-sm>
+        <h3>{{switcheighttext}} - {{getThisSwitchHasAssignedMsg('switch8')}}</h3>
+      </ion-row>  
+    </ion-item>
+  </ion-list> 
 
 </ion-content>

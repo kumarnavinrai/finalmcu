@@ -139,6 +139,48 @@ export class SchedulePage {
       
   }
 
+  checkIsThisSwitchHasAssigned(data: any)
+  {
+    
+    if(this.switchedassignedtowatermotor == data)
+    {
+      return true;
+    } 
+
+    if(this.switchedassignedtolaptop == data)
+    {
+      return true;
+    }
+
+    if(this.switchedassignedtophone == data)
+    {
+      return true;
+    } 
+
+    return false;
+  }
+
+  getThisSwitchHasAssignedMsg(data: any)
+  {
+    
+    if(this.switchedassignedtowatermotor == data)
+    {
+      return "This switch has been assigned to water motor!";
+    } 
+
+    if(this.switchedassignedtolaptop == data)
+    {
+      return "This switch has been assigned to laptop!";
+    }
+
+    if(this.switchedassignedtophone == data)
+    {
+      return "This switch hs been assigned to phone!";
+    } 
+
+    return '';
+  }
+
   getData()
   {
      this.storage.get('switchonetext').then((value) => {

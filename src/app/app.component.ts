@@ -429,9 +429,23 @@ export class ConferenceApp {
       this.my_media.play();
       let check: any = this;
       // Pause after 10 min
-      setTimeout(function () {
-          check.my_media.pause();
-      }, 600000);
+
+      if(this.my_media.getDuration()>-1)
+      {
+        let duration_time: any = this.my_media.getDuration() * 1000;
+        setTimeout(function () {
+          check.my_media.stop();
+          check.my_media.play();
+        }, duration_time);
+
+      }else
+      {
+        setTimeout(function () {
+          check.my_media.stop();
+          check.my_media.play();
+        }, 600000);
+      }
+      
   }
 
   stopAlarmTune()
