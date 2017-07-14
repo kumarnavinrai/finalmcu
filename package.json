@@ -29,7 +29,7 @@
         "@ionic-native/core": "3.12.1",
         "@ionic-native/file-chooser": "^3.14.0",
         "@ionic-native/file-path": "^3.14.0",
-        "@ionic-native/in-app-browser": "3.12.1",
+        "@ionic-native/in-app-browser": "^3.12.1",
         "@ionic-native/local-notifications": "^3.13.1",
         "@ionic-native/media": "^3.14.0",
         "@ionic-native/native-audio": "^3.14.0",

@@ -6,7 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
 
 import { AboutPage } from '../pages/about/about';
-import { AccountPage } from '../pages/account/account';
+/*import { AccountPage } from '../pages/account/account';*/
 import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { TabsPage } from '../pages/tabs/tabs';
@@ -19,7 +19,7 @@ import { PhonePage } from '../pages/phone/phone';
 import { LaptopPage } from '../pages/laptop/laptop';
 import { WatermotorPage } from '../pages/watermotor/watermotor';
 import { AlarmPage } from '../pages/alarm/alarm';
-
+import { DoorPage } from '../pages/door/door';
 
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
@@ -64,13 +64,14 @@ export class ConferenceApp {
   ];
   loggedInPages: PageInterface[] = [
     
-    { title: 'Home', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'contacts' },
-    { title: 'Laptop', name: 'TabsPage', component: TabsPage, tabComponent: LaptopPage, index: 1, icon: 'map' },
-    { title: 'Phone', name: 'TabsPage', component: TabsPage, tabComponent: PhonePage, index: 3, icon: 'information-circle' },
-    { title: 'Water Motor', name: 'TabsPage', component: TabsPage, tabComponent: WatermotorPage, index: 2, icon: 'information-circle' },
-    { title: 'Edit', name: 'EditinfoPage', component: TabsPage, tabComponent: EditinfoPage, icon: 'information-circle' },
-    { title: 'Alarm', name: 'AlarmPage', component: AlarmPage, icon: 'person' },   
-    { title: 'Account', name: 'AccountPage', component: AccountPage, icon: 'person' },
+    { title: 'Home', name: 'TabsPage', component: TabsPage, tabComponent: SchedulePage, index: 0, icon: 'home' },
+    { title: 'Laptop', name: 'TabsPage', component: TabsPage, tabComponent: LaptopPage, index: 1, icon: 'laptop' },
+    { title: 'Phone', name: 'TabsPage', component: TabsPage, tabComponent: PhonePage, index: 3, icon: 'phone-landscape' },
+    { title: 'Water Motor', name: 'TabsPage', component: TabsPage, tabComponent: WatermotorPage, index: 2, icon: 'battery-dead' },
+    { title: 'Edit', name: 'EditinfoPage', component: TabsPage, tabComponent: EditinfoPage, icon: 'create' },
+    { title: 'Alarm', name: 'AlarmPage', component: AlarmPage, icon: 'alarm' },   
+    { title: 'Door', name: 'DoorPage', component: DoorPage, icon: 'open' },
+    /*{ title: 'Account', name: 'AccountPage', component: AccountPage, icon: 'person' },*/
     { title: 'Support', name: 'SupportPage', component: SupportPage, icon: 'help' },
     { title: 'Logout', name: 'TabsPage', component: TabsPage, icon: 'log-out', logsOut: true }
   ];

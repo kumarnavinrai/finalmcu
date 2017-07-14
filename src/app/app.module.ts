@@ -16,6 +16,9 @@ import { PopoverPage } from '../pages/about-popover/about-popover';
 import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { SchedulePage } from '../pages/schedule/schedule';
+import { DoorPage } from '../pages/door/door';
+
+
 import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
 import { SessionDetailPage } from '../pages/session-detail/session-detail';
 import { SignupPage } from '../pages/signup/signup';
@@ -35,13 +38,12 @@ import { NativeAudio } from '@ionic-native/native-audio';
 
 
 
-
+import { SafePipe } from '../directives/piped';
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Autostart } from '@ionic-native/autostart';
 import { BackgroundMode } from '@ionic-native/background-mode';
-
 
 @NgModule({
   declarations: [
@@ -61,8 +63,10 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     PhonePage,
     LaptopPage,
     WatermotorPage,
+    DoorPage,
     AlarmPage,
     TutorialPage,
+    SafePipe,
     SupportPage
   ],
   imports: [
@@ -87,6 +91,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
         { component: LaptopPage, name: 'LaptopPage', segment: 'laptop' },
         { component: AlarmPage, name: 'AlarmPage', segment: 'laptop' },
         { component: WatermotorPage, name: 'WatermotorPage', segment: 'watermotor' },
+        { component: DoorPage, name: 'DoorPage', segment: 'door' },
         
         
       ]
@@ -111,6 +116,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     PhonePage,
     LaptopPage,
     WatermotorPage,
+    DoorPage,
     AlarmPage,
     TutorialPage,
     SupportPage

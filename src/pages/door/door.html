@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-navbar no-border-bottom>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>Door Security</ion-title>
+
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  
+  
+
+  <ion-list class="swtcls">
+  
+     
+     <ion-item>
+        <ion-row responsive-sm>
+          <h1>Door Management</h1>
+
+        </ion-row>  
+
+        <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="onSwitch('4')" type="button" block>Open Door</button>
+            </ion-col>
+            <ion-col>
+              <button ion-button (click)="offSwitch('4')" color="light" block>Close Door</button>
+            </ion-col>
+        </ion-row>
+     </ion-item>
+
+    
+
+  </ion-list>
+   
+       
+
+  <ion-list class="swtcls">
+     <ion-item>
+        <ion-row responsive-sm>
+          <h2>View camera to check door</h2>
+
+        </ion-row>  
+
+        <ion-row responsive-sm>
+            <ion-col>
+              <button ion-button (click)="checkCamera()" type="button" block>Check camera</button>
+            </ion-col>
+           
+        </ion-row>
+     </ion-item>
+
+  </ion-list>
+      
+
+  <ion-list class="swtcls" [hidden]="!showcamera">
+     <ion-item>
+        <ion-row responsive-sm>
+          <iframe width="100%" height="300" src="http://192.168.43.206:8080/"></iframe>
+
+        </ion-row>  
+
+        
+     </ion-item>
+    
+
+  </ion-list>
+
+
+
+</ion-content>
