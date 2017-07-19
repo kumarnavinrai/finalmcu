@@ -36,9 +36,17 @@
 			<ion-item>
 				<button ion-button (click)="saveSwitchSelection()" type="button" block>Save Phone Settings</button>
 			</ion-item>
+
+			<ion-item *ngIf="isphonepluggedinforcharging == 'true'">
+				<ion-label stacked color="primary"> This phone is plugged in for charging </ion-label>
+			</ion-item>
+
+			<ion-item *ngIf="isphonepluggedinforcharging != 'true'">
+				<ion-label stacked color="primary"> This phone is not plugged in for charging </ion-label>
+			</ion-item>
 			
 			<ion-item *ngIf="switchasgsaved">
-				<ion-label stacked color="primary">% of charging in phone now</ion-label>
+				<ion-label stacked color="primary"> {{presentcharginginthisphone}} %  of charging is in phone now</ion-label>
 				<ion-range min="0" max="100" pin="true" debounce="500" [(ngModel)]="percentageofchargingpresent" color="secondary">
 				    <ion-label range-left>0%</ion-label>
 				    <ion-label range-right>100%</ion-label>

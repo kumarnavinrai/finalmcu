@@ -89,6 +89,7 @@
     <engine name="ios" spec="4.3.1" />
     <plugin name="cordova-plugin-autostart" spec="^2.0.1" />
     <plugin name="cordova-plugin-background-mode" spec="^0.7.2" />
+    <plugin name="cordova-plugin-battery-status" spec="^1.2.4" />
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
     <plugin name="cordova-plugin-crosswalk-webview" spec="^2.2.0">
         <variable name="XWALK_VERSION" value="22+" />

@@ -32,12 +32,30 @@ export class PhonePage {
   switchasgsaved: boolean = false;
   idofphonetimer: any;
   isphonetimerset: boolean = false;
+  presentcharginginthisphone: number = 0;
+  isphonepluggedinforcharging: string = '';
   
   constructor(public navCtrl: NavController, public userData: UserData, public storage: Storage, public alertCtrl: AlertController, public confData: ConferenceData, private localNotifications: LocalNotifications) 
   {
     this.switchedassignedtophone = 0;
 
     this.durationoffullcharge = new Date().toISOString();
+
+    this.storage.get('batterypersentageofthisphone').then((value) => {
+        if(value != '' && value != null)
+        {
+          this.presentcharginginthisphone = parseInt(value);
+          this.percentageofchargingpresent = this.presentcharginginthisphone; 
+        }
+    });
+
+    this.storage.get('thisphoneispluggedinornot').then((value) => {
+        if(value != '' && value != null)
+        {
+          this.isphonepluggedinforcharging = value;
+        }
+    });
+
     this.getData();
   }
 
@@ -199,7 +217,6 @@ export class PhonePage {
           }
       });
 
-      
 
       
   }

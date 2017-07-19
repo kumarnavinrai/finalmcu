@@ -26,6 +26,7 @@
         "@angular/platform-browser-dynamic": "4.1.3",
         "@ionic-native/autostart": "^3.13.1",
         "@ionic-native/background-mode": "^3.13.1",
+        "@ionic-native/battery-status": "^4.0.1",
         "@ionic-native/core": "3.12.1",
         "@ionic-native/file-chooser": "^3.14.0",
         "@ionic-native/file-path": "^3.14.0",
@@ -41,6 +42,7 @@
         "cordova-plugin-app-event": "^1.2.0",
         "cordova-plugin-autostart": "^2.0.1",
         "cordova-plugin-background-mode": "^0.7.2",
+        "cordova-plugin-battery-status": "^1.2.4",
         "cordova-plugin-compat": "^1.1.0",
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-crosswalk-webview": "^2.2.0",
@@ -93,7 +95,8 @@
             "cordova-plugin-filechooser": {},
             "cordova-plugin-filepath": {},
             "cordova-plugin-nativeaudio": {},
-            "cordova-plugin-media": {}
+            "cordova-plugin-media": {},
+            "cordova-plugin-battery-status": {}
         },
         "platforms": [
             "android",

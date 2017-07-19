@@ -29,8 +29,10 @@ import { BackgroundMode } from '@ionic-native/background-mode';
 import { NativeAudio } from '@ionic-native/native-audio';
 
 
-declare var cordova:any;
-declare var Media:any;
+declare var cordova: any;
+declare var Media: any;
+declare var window: any;
+
 
 export interface PageInterface {
   title: string;
@@ -412,7 +414,26 @@ export class ConferenceApp {
 
       });
 
+      let checknext: any = this;
+      window.addEventListener("batterystatus", (status: any) => {
+        //alert("Level: " + status.level + " isPlugged: " + status.isPlugged);
+        let temp: any = "" + status.level;
+        checknext.storage.set('batterypersentageofthisphone', temp);
+        temp = "" + status.isPlugged;
+        checknext.storage.set('thisphoneispluggedinornot', temp);
+      }, false);
+
+      
+
     });//platform ready ends here
+  }
+
+  onBatteryStatus(status: any) {
+    alert("Level: " + status.level + " isPlugged: " + status.isPlugged);
+    let temp: any = "" + status.level;
+    this.storage.set('batterypersentageofthisphone', temp);
+    temp = "" + status.isPlugged;
+    this.storage.set('thisphoneispluggedinornot', temp);
   }
 
   playAudio(url: any) {
