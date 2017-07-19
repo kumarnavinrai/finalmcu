@@ -41,22 +41,11 @@ export class PhonePage {
 
     this.durationoffullcharge = new Date().toISOString();
 
-    this.storage.get('batterypersentageofthisphone').then((value) => {
-        if(value != '' && value != null)
-        {
-          this.presentcharginginthisphone = parseInt(value);
-          this.percentageofchargingpresent = this.presentcharginginthisphone; 
-        }
-    });
-
-    this.storage.get('thisphoneispluggedinornot').then((value) => {
-        if(value != '' && value != null)
-        {
-          this.isphonepluggedinforcharging = value;
-        }
-    });
-
-    this.getData();
+    let check: any = this;
+    
+    setInterval(function(){ 
+      check.getData(); 
+    }, 5000);
   }
 
   saveSwitchSelection()
@@ -218,6 +207,20 @@ export class PhonePage {
       });
 
 
+      this.storage.get('batterypersentageofthisphone').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.presentcharginginthisphone = parseInt(value);
+            this.percentageofchargingpresent = this.presentcharginginthisphone; 
+          }
+      });
+
+      this.storage.get('thisphoneispluggedinornot').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.isphonepluggedinforcharging = value;
+          }
+      });
       
   }
 
