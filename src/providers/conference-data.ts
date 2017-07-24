@@ -18,6 +18,8 @@ import 'rxjs/add/operator/catch';
 export class ConferenceData {
   data: any;
   loading: Loading;
+  //urlForApi: string = 'http://192.168.43.167';
+  urlForApi: string = 'http://192.168.43.247';
 
   constructor(public http: Http, public user: UserData, private localNotifications: LocalNotifications, public loadingCtrl: LoadingController) 
   { 
@@ -39,9 +41,17 @@ export class ConferenceData {
     }
   }*/
 
+  checkWaterLevel(): any {
+    
+    let tempurl = this.urlForApi + '/SRC=ULTRASONIC';
+   
+    return this.http.get(tempurl);
+  
+  }
+
   hitSwitch(data: any): any {
     
-    let tempurl = 'http://192.168.43.167/?pin=OFF'+data;
+    let tempurl = this.urlForApi + '/pin=OFF'+this.getDataFromUrl(data);
    
     if (!data) {
       return Observable.of(data);
@@ -50,9 +60,33 @@ export class ConferenceData {
     }
   }
 
+  getDataFromUrl(data: any)
+  {
+
+     if(data == 1)
+     {
+        return 'ONE';
+     }
+
+     if(data == 2)
+     {
+        return 'TWO';
+     }
+
+     if(data == 3)
+     {
+        return 'THREE';
+     }
+
+     if(data == 4)
+     {
+        return 'FOUR';
+     }
+  }
+
   hitOFFSwitch(data: any): any {
     
-    let tempurl = 'http://192.168.43.167/?pin=ON'+data;
+    let tempurl = this.urlForApi + '/pin=ON'+this.getDataFromUrl(data);
 
     if (!data) {
       return Observable.of(data);

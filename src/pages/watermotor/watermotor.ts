@@ -42,6 +42,14 @@ export class WatermotorPage {
     this.getData();
   }
 
+  checkWaterLevel()
+  {
+    this.confData.checkWaterLevel().subscribe((data: any) => {
+            console.log(data);        
+    }); 
+  }
+
+
   saveSwitchSelection()
   {
     if(this.switchedassignedtowatermotor == 0)
