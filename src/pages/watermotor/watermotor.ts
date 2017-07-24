@@ -32,6 +32,11 @@ export class WatermotorPage {
   switchasgsaved: boolean = false;
   idofwatermotortimer: any;
   iswatermotortimerset: boolean = false;
+  diameteroftank: number = 0;
+  heightoftank: number = 0;
+  liquidheight: number = 0;
+  //formulat pi r square into height devided by 1000 cetimeters
+  //http://alloiltank.com/tank-volume-calculator/
 
   
   constructor(public navCtrl: NavController, public userData: UserData, public storage: Storage, public alertCtrl: AlertController, public confData: ConferenceData, private localNotifications: LocalNotifications) 
@@ -59,6 +64,137 @@ export class WatermotorPage {
     }
     
     this.showAlert();
+  }
+
+  checkWaterLevel()
+  {
+
+    if(this.diameteroftank == 0 || this.heightoftank == 0)
+    {
+      this.showMsgError();
+      return true;
+    }
+
+    this.storage.set('diameteroftank',this.diameteroftank);
+    this.storage.set('heightoftank',this.heightoftank);
+
+    let howfaristheobjectreadingsrc: any;
+
+
+    let responsearray: any = [];
+    let pointer: any = this;
+
+    setTimeout(function(){ 
+        responsearray.push(25);
+
+        setTimeout(function(){ 
+            responsearray.push(5);  
+
+            setTimeout(function(){ 
+                responsearray.push(25); 
+
+                setTimeout(function(){ 
+                    responsearray.push(25);
+
+                    setTimeout(function(){ 
+                        responsearray.push(5);  
+                        console.log(pointer.removeSmallest(responsearray));
+
+                        console.log(JSON.stringify(pointer.removeSmallest(responsearray)));
+
+                        let min: any = Math.min.apply(null, responsearray);
+                        let leftarray: any = responsearray.filter((e: any) => {return e != min});
+
+
+                        min = Math.min.apply(null, leftarray);
+                        leftarray = responsearray.filter((e: any) => {return e != min});
+                        
+                        alert(JSON.stringify(leftarray));
+                        
+                        leftarray = pointer.removeSmallest(leftarray);
+
+                        leftarray = pointer.removeSmallest(leftarray);
+                        
+                        alert(JSON.stringify(leftarray));
+
+                        howfaristheobjectreadingsrc =  leftarray[0] + leftarray[1] + leftarray[2];
+
+                        howfaristheobjectreadingsrc = howfaristheobjectreadingsrc/3;
+                        alert(howfaristheobjectreadingsrc);
+                        pointer.checkWaterLevelStep2(howfaristheobjectreadingsrc);
+
+                    }, 1000);    
+
+                }, 1000); 
+
+            }, 1000);
+
+        }, 1000);
+
+    }, 1000);
+  }
+
+  checkWaterLevelStep2(howfaristheobjectreadingsrc: any)
+  {
+    
+
+    this.liquidheight = this.heightoftank - howfaristheobjectreadingsrc;
+    
+    
+    let pi: any = 3.14159;
+    let radiusoftank: any = this.diameteroftank/2;
+    let rsquare: any = radiusoftank * radiusoftank;
+
+    let totalcapacityoftankinleters: any;
+
+    totalcapacityoftankinleters = pi * rsquare * this.heightoftank / 1000;
+
+    
+    let waterpresentinliters: any;
+
+    waterpresentinliters =   pi * rsquare * this.liquidheight / 1000;
+
+    
+    let percentageoftankfilled: any;
+
+    percentageoftankfilled = waterpresentinliters/totalcapacityoftankinleters;
+
+    percentageoftankfilled = percentageoftankfilled * 100;
+
+    
+    this.percentageofchargingpresent = percentageoftankfilled;
+
+    
+
+    //formulat pi r square into height devided by 1000 cetimeters
+    //http://alloiltank.com/tank-volume-calculator/
+
+  } 
+
+  removeSmallest(arr: any) {
+    let min: any = Math.min.apply(null, arr);
+    return arr.filter((e: any) => {return e != min});
+  }
+
+  showMsgError() 
+  {
+      let alert: any = this.alertCtrl.create({
+        title: 'OOPS!',
+        message: 'Please enter diameter and height of tank!',
+        buttons: [
+          
+          {
+            text: 'Ok',
+            handler: () => {
+              
+            }
+          }
+        ]
+      });
+
+      
+        alert.present();
+      
   }
 
   showAlert() 
@@ -204,7 +340,20 @@ export class WatermotorPage {
           }
       });
 
-      
+      this.storage.get('diameteroftank').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.diameteroftank = value;
+          }
+      });
+
+      this.storage.get('heightoftank').then((value) => {
+          if(value != '' && value != null)
+          {
+            this.heightoftank = value;
+          }
+      });
+     
   }
 
   showAlertSwitchCheck() 

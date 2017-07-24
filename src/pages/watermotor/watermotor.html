@@ -36,8 +36,22 @@
 			</ion-item>
 
 			<ion-item>
+
+				<ion-label stacked color="primary">Diameter of water tank in (cm).</ion-label>
+				<ion-input [(ngModel)]="diameteroftank" name="diameteroftank" type="text"  spellcheck="false" autocapitalize="off">
+				</ion-input>
+			</ion-item>
+
+			<ion-item>
+				<ion-label stacked color="primary">Height of water tank in (cm).</ion-label>
+				<ion-input [(ngModel)]="heightoftank" name="heightoftank" type="text"  spellcheck="false" autocapitalize="off">
+				</ion-input>
+			</ion-item>
+
+			<ion-item>
 				<button ion-button (click)="checkWaterLevel()" type="button" block>Check Water Level</button>
 			</ion-item>
+
 
 			<ion-item>
 				<button ion-button (click)="saveSwitchSelection()" type="button" block>Save Motor Switch</button>
@@ -45,7 +59,7 @@
 			
 			<ion-item *ngIf="switchasgsaved">
 				<ion-label stacked color="primary">% of tank filled now</ion-label>
-				<ion-range min="0" max="100" step="25" pin="true" snaps="true" [(ngModel)]="percentageofchargingpresent" color="secondary">
+				<ion-range min="0" max="100"  pin="true"  [(ngModel)]="percentageofchargingpresent" color="secondary">
 				    <ion-label range-left>0%</ion-label>
 				    <ion-label range-right>100%</ion-label>
 				</ion-range>
