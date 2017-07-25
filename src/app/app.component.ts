@@ -20,7 +20,7 @@ import { LaptopPage } from '../pages/laptop/laptop';
 import { WatermotorPage } from '../pages/watermotor/watermotor';
 import { AlarmPage } from '../pages/alarm/alarm';
 import { DoorPage } from '../pages/door/door';
-
+import { RemotePage } from '../pages/remote/remote';
 import { ConferenceData } from '../providers/conference-data';
 import { UserData } from '../providers/user-data';
 
@@ -73,6 +73,7 @@ export class ConferenceApp {
     { title: 'Edit', name: 'EditinfoPage', component: TabsPage, tabComponent: EditinfoPage, icon: 'create' },
     { title: 'Alarm', name: 'AlarmPage', component: AlarmPage, icon: 'alarm' },   
     { title: 'Door', name: 'DoorPage', component: DoorPage, icon: 'open' },
+    { title: 'Remote', name: 'RemotePage', component: RemotePage, icon: 'wifi' },
     /*{ title: 'Account', name: 'AccountPage', component: AccountPage, icon: 'person' },*/
     { title: 'Support', name: 'SupportPage', component: SupportPage, icon: 'help' },
     { title: 'Logout', name: 'TabsPage', component: TabsPage, icon: 'log-out', logsOut: true }

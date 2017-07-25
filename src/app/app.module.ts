@@ -17,6 +17,7 @@ import { AccountPage } from '../pages/account/account';
 import { LoginPage } from '../pages/login/login';
 import { SchedulePage } from '../pages/schedule/schedule';
 import { DoorPage } from '../pages/door/door';
+import { RemotePage } from '../pages/remote/remote';
 
 
 import { ScheduleFilterPage } from '../pages/schedule-filter/schedule-filter';
@@ -64,6 +65,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     LaptopPage,
     WatermotorPage,
     DoorPage,
+    RemotePage,
     AlarmPage,
     TutorialPage,
     SafePipe,
@@ -92,6 +94,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
         { component: AlarmPage, name: 'AlarmPage', segment: 'laptop' },
         { component: WatermotorPage, name: 'WatermotorPage', segment: 'watermotor' },
         { component: DoorPage, name: 'DoorPage', segment: 'door' },
+        { component: RemotePage, name: 'RemotePage', segment: 'remote' },
         
         
       ]
@@ -117,6 +120,7 @@ import { BackgroundMode } from '@ionic-native/background-mode';
     LaptopPage,
     WatermotorPage,
     DoorPage,
+    RemotePage,
     AlarmPage,
     TutorialPage,
     SupportPage

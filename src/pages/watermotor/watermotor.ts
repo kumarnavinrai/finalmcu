@@ -78,38 +78,46 @@ export class WatermotorPage {
     let responsearray: any = [];
     let pointer: any = this;
 
-    this.confData.checkWaterLevel().subscribe((data: any) => {
-            console.log(data);        
-    }); 
-    setTimeout(function(){ 
-        responsearray.push(25);
+   
+    this.confData.checkWaterLevel().subscribe((data1: any) => {
+      console.log(data1);
+      if(data1.hasOwnProperty('distance')){
+        responsearray.push(data1.distance);
+      }         
+     
+        this.confData.checkWaterLevel().subscribe((data2: any) => {
+          console.log(data2);
+          if(data2.hasOwnProperty('distance')){
+            responsearray.push(data2.distance);
+          }    
+         
+            this.confData.checkWaterLevel().subscribe((data3: any) => {
+              console.log(data3);
+              if(data3.hasOwnProperty('distance')){
+                responsearray.push(data3.distance);
+              }  
 
-        setTimeout(function(){ 
-            responsearray.push(6);  
+                this.confData.checkWaterLevel().subscribe((data4: any) => {
+                  console.log(data4);
+                  if(data4.hasOwnProperty('distance')){
+                    responsearray.push(data4.distance);
+                  }
 
-            setTimeout(function(){ 
-                responsearray.push(25); 
-
-                setTimeout(function(){ 
-                    responsearray.push(25);
-
-                    setTimeout(function(){ 
-                        responsearray.push(5);  
-                        //console.log(pointer.removeSmallest(responsearray));
-
-                        //console.log(JSON.stringify(pointer.removeSmallest(responsearray)));
+                    this.confData.checkWaterLevel().subscribe((data5: any) => {
+                      console.log(data5);
+                      if(data5.hasOwnProperty('distance')){
+                        responsearray.push(data5.distance);
+                      }  
+                        
 
                         let min: any = Math.min.apply(null, responsearray);
                         let leftarrayfirst: any = responsearray.filter((e: any) => {return e != min});
-                          //alert(JSON.stringify(leftarrayfirst));
+                         
 
                         min = Math.min.apply(null, leftarrayfirst);
                         let leftarray: any = leftarrayfirst.filter((e: any) => {return e != min});
                         
-                        //alert(JSON.stringify(leftarray));
-                        
-                      
-                        //alert(leftarray.length);
+                       
                         
                         let i: any = 0;
                         let sumofreadings: any = 0;
@@ -120,18 +128,18 @@ export class WatermotorPage {
                         }
 
                         howfaristheobjectreadingsrc = sumofreadings/i+1;
-                        alert(howfaristheobjectreadingsrc);
+                        
                         pointer.checkWaterLevelStep2(howfaristheobjectreadingsrc);
 
-                    }, 1000);    
+                    });    
 
-                }, 1000); 
+                }); 
 
-            }, 1000);
+            });
 
-        }, 1000);
+        });
 
-    }, 1000);
+    });
   }
 
   checkWaterLevelStep2(howfaristheobjectreadingsrc: any)
