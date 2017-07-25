@@ -47,12 +47,6 @@ export class WatermotorPage {
     this.getData();
   }
 
-  checkWaterLevel()
-  {
-    this.confData.checkWaterLevel().subscribe((data: any) => {
-            console.log(data);        
-    }); 
-  }
 
 
   saveSwitchSelection()
@@ -84,11 +78,14 @@ export class WatermotorPage {
     let responsearray: any = [];
     let pointer: any = this;
 
+    this.confData.checkWaterLevel().subscribe((data: any) => {
+            console.log(data);        
+    }); 
     setTimeout(function(){ 
         responsearray.push(25);
 
         setTimeout(function(){ 
-            responsearray.push(5);  
+            responsearray.push(6);  
 
             setTimeout(function(){ 
                 responsearray.push(25); 
@@ -98,28 +95,31 @@ export class WatermotorPage {
 
                     setTimeout(function(){ 
                         responsearray.push(5);  
-                        console.log(pointer.removeSmallest(responsearray));
+                        //console.log(pointer.removeSmallest(responsearray));
 
-                        console.log(JSON.stringify(pointer.removeSmallest(responsearray)));
+                        //console.log(JSON.stringify(pointer.removeSmallest(responsearray)));
 
                         let min: any = Math.min.apply(null, responsearray);
-                        let leftarray: any = responsearray.filter((e: any) => {return e != min});
+                        let leftarrayfirst: any = responsearray.filter((e: any) => {return e != min});
+                          //alert(JSON.stringify(leftarrayfirst));
 
-
-                        min = Math.min.apply(null, leftarray);
-                        leftarray = responsearray.filter((e: any) => {return e != min});
+                        min = Math.min.apply(null, leftarrayfirst);
+                        let leftarray: any = leftarrayfirst.filter((e: any) => {return e != min});
                         
-                        alert(JSON.stringify(leftarray));
+                        //alert(JSON.stringify(leftarray));
                         
-                        leftarray = pointer.removeSmallest(leftarray);
-
-                        leftarray = pointer.removeSmallest(leftarray);
+                      
+                        //alert(leftarray.length);
                         
-                        alert(JSON.stringify(leftarray));
+                        let i: any = 0;
+                        let sumofreadings: any = 0;
 
-                        howfaristheobjectreadingsrc =  leftarray[0] + leftarray[1] + leftarray[2];
+                        for(i=0;i<leftarray.length;i++)
+                        {
+                            sumofreadings = sumofreadings + leftarray[i];
+                        }
 
-                        howfaristheobjectreadingsrc = howfaristheobjectreadingsrc/3;
+                        howfaristheobjectreadingsrc = sumofreadings/i+1;
                         alert(howfaristheobjectreadingsrc);
                         pointer.checkWaterLevelStep2(howfaristheobjectreadingsrc);
 
