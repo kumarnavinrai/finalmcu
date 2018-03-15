@@ -36,4 +36,3 @@ This is purely a contol app for IOT project in Ionic with TypeScript. It is stil
 * iOS - Run `ionic cordova run ios --prod`
 
 
-# finalmcu
