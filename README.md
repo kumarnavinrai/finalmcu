@@ -9,10 +9,8 @@ This is purely a contol app for IOT project in Ionic with TypeScript. It is stil
 
 ## Table of Contents
  - [Getting Started](#getting-started)
- - [Contributing](#contributing)
- - [Use Cases](#use-cases)
  - [App Preview](#app-preview)
- - [File Structure of App](#file-structure-of-app)
+ - [Deploying](#deploying)
 
 
 ## Getting Started
@@ -26,10 +24,8 @@ This is purely a contol app for IOT project in Ionic with TypeScript. It is stil
 **Note:** Is your build slow? Update `npm` to 3.x: `npm install -g npm`.
 
 
-
-
 ## App Preview
-
+![alt text](https://raw.githubusercontent.com/kumarnavinrai/finalmcu/master/Screenshot_2017-07-18-10-34-25.png)
 
 
 
